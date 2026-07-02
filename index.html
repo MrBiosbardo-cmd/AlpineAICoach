@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Alpine AI Coach — Free AI-powered cycling coaching built on real sport science. For every cyclist, regardless of where they live or what they can afford.">
+  <meta name="theme-color" content="#050d1f">
+  <title>Alpine AI Coach — Coaching for Every Cyclist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+
+    /* === VARIABLES & BASE STYLES === */
+    :root {
+      --color-bg:             #050d1f;
+      --color-surface:        #0a1628;
+      --color-surface-2:      #0f1e35;
+      --color-border:         #1a2d4a;
+      --color-border-light:   #243d5e;
+      --color-primary:        #38bdf8;
+      --color-primary-dim:    #7dd3fc;
+      --color-primary-muted:  #1e6a9a;
+      --color-accent:         #0ea5e9;
+      --color-accent-light:   #38bdf8;
+      --color-text:           #f0f8ff;
+      --color-text-secondary: #94b8d4;
+      --color-text-muted:     #3a5878;
+      --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --spacing-xs:  8px;
+      --spacing-sm:  16px;
+      --spacing-md:  24px;
+      --spacing-lg:  40px;
+      --spacing-xl:  64px;
+      --spacing-2xl: 96px;
+      --spacing-3xl: 128px;
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.6);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.6);
+      --shadow-lg: 0 12px 32px rgba(0,0,0,0.7);
+      --transition: 220ms ease-in-out;
+      --container-max: 1100px;
+      --container-pad: 20px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+    body {
+      font-family: var(--font-primary);
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* === TYPOGRAPHY === */
+    h1, h2, h3, h4 { font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; color: var(--color-text); }
+    h1 { font-size: clamp(32px, 5vw, 52px); line-height: 1.1; }
+    h2 { font-size: clamp(24px, 3.5vw, 36px); }
+    h3 { font-size: clamp(18px, 2.5vw, 22px); }
+    h4 { font-size: 16px; font-weight: 500; }
+    p { color: var(--color-text-secondary); line-height: 1.7; font-size: 16px; }
+    a { color: var(--color-primary); text-decoration: none; transition: color var(--transition); }
+    a:hover { color: var(--color-text); }
+    strong { color: var(--color-text); font-weight: 600; }
+
+    /* === LAYOUT === */
+    .container { max-width: var(--container-max); margin: 0 auto; padding: 0 var(--container-pad); }
+    .section { padding: var(--spacing-xl) 0; }
+    .section-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-primary-muted);
+      margin-bottom: var(--spacing-md);
+    }
+    .divider { width: 100%; height: 1px; background: var(--color-border); }
+
+    /* === NAVIGATION === */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 14px 0;
+      transition: background var(--transition), border-color var(--transition);
+    }
+    .nav.scrolled {
+      background: rgba(5, 13, 31, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; }
+
+    /* ── LOGO (nav) ── */
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+
+    .nav-logo-img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      border-radius: var(--radius-sm);
+      display: block;
+      flex-shrink: 0;
+    }
+
+    .nav-logo-text { font-size: 15px; font-weight: 700; color: var(--color-text); letter-spacing: -0.01em; }
+
+    .nav-links { display: none; align-items: center; gap: var(--spacing-lg); list-style: none; }
+    .nav-links a { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); text-decoration: none; transition: color var(--transition); }
+    .nav-links a:hover { color: var(--color-text); }
+    .nav-cta { display: none; }
+
+    .nav-mobile-toggle {
+      background: none;
+      border: 1px solid var(--color-border-light);
+      border-radius: var(--radius-sm);
+      padding: 8px 10px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: border-color var(--transition);
+    }
+    .nav-mobile-toggle:hover { border-color: var(--color-primary-muted); }
+    .nav-mobile-toggle span { display: block; width: 18px; height: 1.5px; background: var(--color-text-secondary); transition: all var(--transition); }
+    .nav-mobile-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+    .nav-mobile-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+    .nav-mobile-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+
+    .nav-mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--color-bg);
+      z-index: 99;
+      padding: 100px var(--container-pad) var(--spacing-xl);
+      flex-direction: column;
+      gap: var(--spacing-sm);
+    }
+    .nav-mobile-menu.open { display: flex; }
+    .nav-mobile-menu a { font-size: 22px; font-weight: 500; color: var(--color-text-secondary); text-decoration: none; padding: 12px 0; border-bottom: 1px solid var(--color-border); transition: color var(--transition); }
+    .nav-mobile-menu a:hover, .nav-mobile-menu a:focus { color: var(--color-text); }
+
+    /* === BUTTONS === */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      font-family: var(--font-primary); font-size: 14px; font-weight: 600; line-height: 1;
+      padding: 14px 24px; border-radius: var(--radius-md); border: none; cursor: pointer;
+      text-decoration: none; transition: all var(--transition); letter-spacing: 0.01em; white-space: nowrap;
+    }
+    .btn:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; }
+    .btn-primary { background: var(--color-primary); color: #050d1f; }
+    .btn-primary:hover { background: var(--color-text); color: #050d1f; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(56,189,248,0.3); }
+    .btn-secondary { background: transparent; color: var(--color-text-secondary); border: 1px solid var(--color-border-light); }
+    .btn-secondary:hover { border-color: var(--color-primary-muted); color: var(--color-text); }
+    .btn-ghost { background: transparent; color: var(--color-primary); padding: 14px 0; border-radius: 0; }
+    .btn-ghost:hover { color: var(--color-text); }
+    .btn-ghost svg { transition: transform var(--transition); }
+    .btn-ghost:hover svg { transform: translateX(4px); }
+    .btn-support { background: var(--color-accent); color: #fff; }
+    .btn-support:hover { background: var(--color-accent-light); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(14,165,233,0.35); }
+
+    /* === HERO SECTION === */
+    .hero {
+      min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+      padding: 120px 0 var(--spacing-xl); position: relative; overflow: hidden;
+    }
+    .hero-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+    .hero-bg-gradient {
+      position: absolute; top: 0; left: 0; right: 0; height: 60%;
+      background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(56,189,248,0.1) 0%, transparent 70%);
+    }
+    .hero-bg-grid {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(56,189,248,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(56,189,248,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 0%, black 30%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 0%, black 30%, transparent 100%);
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 760px; }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(56,189,248,0.08); border: 1px solid rgba(56,189,248,0.2);
+      border-radius: 100px; padding: 6px 14px; font-size: 12px; font-weight: 500;
+      color: var(--color-primary-dim); margin-bottom: var(--spacing-md); letter-spacing: 0.03em;
+    }
+    .hero-tag-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--color-accent); flex-shrink: 0; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.85); } }
+    .hero-headline { margin-bottom: var(--spacing-md); color: var(--color-text); }
+    .hero-headline em { font-style: normal; color: var(--color-primary); }
+    .hero-subheadline { font-size: 18px; color: var(--color-text-secondary); line-height: 1.65; margin-bottom: var(--spacing-lg); max-width: 600px; font-weight: 400; }
+    .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-sm); margin-bottom: var(--spacing-xl); }
+    .hero-footnote { font-size: 12px; color: var(--color-text-muted); display: flex; align-items: center; gap: 6px; }
+    .hero-footnote::before { content: ''; display: inline-block; width: 16px; height: 1px; background: var(--color-text-muted); }
+    .hero-stats { display: flex; flex-wrap: wrap; gap: var(--spacing-lg); padding-top: var(--spacing-xl); border-top: 1px solid var(--color-border); }
+    .hero-stat-item { display: flex; flex-direction: column; gap: 4px; }
+    .hero-stat-value { font-size: 22px; font-weight: 700; color: var(--color-text); letter-spacing: -0.03em; }
+    .hero-stat-label { font-size: 12px; color: var(--color-text-muted); font-weight: 400; letter-spacing: 0.03em; }
+
+    /* === PROBLEM SECTION === */
+    .problem { background: var(--color-surface); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); }
+    .problem-inner { display: grid; gap: var(--spacing-lg); }
+    .problem-heading { max-width: 680px; }
+    .problem-heading h2 { margin-bottom: var(--spacing-md); }
+    .problem-body { display: grid; gap: var(--spacing-md); max-width: 700px; }
+    .problem-body p { font-size: 17px; line-height: 1.75; }
+    .problem-highlight { border-left: 2px solid var(--color-primary); padding-left: var(--spacing-md); margin: var(--spacing-xs) 0; }
+    .problem-highlight p { color: var(--color-text); font-size: 17px; font-weight: 400; }
+
+    /* === SOLUTION SECTION === */
+    .solution-inner { display: grid; gap: var(--spacing-lg); }
+    .solution-intro { max-width: 680px; }
+    .solution-intro h2 { margin-bottom: var(--spacing-md); }
+    .solution-features { display: grid; gap: var(--spacing-sm); grid-template-columns: 1fr; }
+    .solution-feature { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--spacing-md); display: flex; gap: var(--spacing-md); align-items: flex-start; transition: border-color var(--transition); }
+    .solution-feature:hover { border-color: var(--color-border-light); }
+    .solution-feature-icon { width: 40px; height: 40px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: rgba(56,189,248,0.08); color: var(--color-primary); }
+    .solution-feature-icon svg { width: 20px; height: 20px; }
+    .solution-feature-text h4 { margin-bottom: 6px; color: var(--color-text); }
+    .solution-feature-text p { font-size: 14px; color: var(--color-text-secondary); line-height: 1.6; }
+
+    /* === CREDIBILITY SECTION === */
+    .credibility { background: var(--color-surface); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); }
+    .credibility-inner { display: grid; gap: var(--spacing-lg); }
+    .credibility-card { background: var(--color-surface-2); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--spacing-lg); display: grid; gap: var(--spacing-md); }
+    .credibility-avatar { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, var(--color-primary-muted), var(--color-accent)); display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700; color: #fff; letter-spacing: -0.02em; flex-shrink: 0; }
+    .credibility-header { display: flex; align-items: center; gap: var(--spacing-md); }
+    .credibility-header-text h3 { font-size: 18px; margin-bottom: 4px; }
+    .credibility-header-text p { font-size: 13px; color: var(--color-text-muted); }
+    .credibility-body p { font-size: 16px; line-height: 1.75; color: var(--color-text-secondary); }
+    .credibility-badges { display: flex; flex-wrap: wrap; gap: 8px; }
+    .credibility-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(56,189,248,0.05); border: 1px solid var(--color-border-light); border-radius: var(--radius-sm); padding: 6px 12px; font-size: 12px; font-weight: 500; color: var(--color-text-secondary); }
+    .credibility-badge svg { width: 14px; height: 14px; color: var(--color-primary-muted); }
+    .credibility-quote { padding-top: var(--spacing-md); border-top: 1px solid var(--color-border); }
+    .credibility-quote p { font-size: 15px; font-style: italic; color: var(--color-text-secondary); line-height: 1.7; }
+    .credibility-quote p::before { content: '"'; color: var(--color-primary-muted); font-size: 20px; font-style: normal; line-height: 0; vertical-align: -4px; margin-right: 4px; }
+
+    /* === AUDIENCE SECTION === */
+    .audience-inner { display: grid; gap: var(--spacing-lg); }
+    .audience-intro { max-width: 680px; }
+    .audience-intro h2 { margin-bottom: var(--spacing-md); }
+    .audience-grid { display: grid; gap: var(--spacing-sm); grid-template-columns: 1fr; }
+    .audience-card { border-radius: var(--radius-lg); padding: var(--spacing-md); display: flex; gap: var(--spacing-md); align-items: flex-start; }
+    .audience-card-primary { background: rgba(56,189,248,0.05); border: 1px solid rgba(56,189,248,0.15); }
+    .audience-card-secondary { background: var(--color-surface); border: 1px solid var(--color-border); }
+    .audience-card-icon { font-size: 22px; flex-shrink: 0; line-height: 1; margin-top: 2px; }
+    .audience-card-text h4 { margin-bottom: 8px; color: var(--color-text); font-size: 15px; }
+    .audience-card-text p { font-size: 14px; line-height: 1.65; color: var(--color-text-secondary); }
+    .audience-card-primary .audience-card-text h4 { color: var(--color-primary); }
+
+    /* === HOW IT WORKS SECTION === */
+    .howto { background: var(--color-surface); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); }
+    .howto-inner { display: grid; gap: var(--spacing-lg); }
+    .howto-intro { max-width: 680px; }
+    .howto-intro h2 { margin-bottom: var(--spacing-md); }
+    .howto-steps { display: grid; gap: 0; grid-template-columns: 1fr; }
+    .howto-step { display: flex; gap: var(--spacing-md); padding: var(--spacing-md) 0; border-bottom: 1px solid var(--color-border); }
+    .howto-step:last-child { border-bottom: none; }
+    .howto-step-number { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--color-border-light); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: var(--color-primary-muted); flex-shrink: 0; font-variant-numeric: tabular-nums; }
+    .howto-step-content { flex: 1; padding-top: 6px; }
+    .howto-step-content h4 { font-size: 16px; font-weight: 600; color: var(--color-text); margin-bottom: 6px; }
+    .howto-step-content p { font-size: 14px; color: var(--color-text-secondary); line-height: 1.6; }
+    .howto-cta-block { background: var(--color-surface-2); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--spacing-md); display: flex; flex-direction: column; gap: var(--spacing-sm); }
+    .howto-cta-block p { font-size: 14px; color: var(--color-text-secondary); }
+
+    /* === SUPPORT SECTION === */
+    .support-inner { display: grid; gap: var(--spacing-lg); }
+    .support-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--spacing-lg); display: grid; gap: var(--spacing-md); }
+    .support-card-top { display: flex; flex-direction: column; gap: var(--spacing-xs); }
+    .support-card h2 { font-size: clamp(22px, 3vw, 30px); margin-bottom: 4px; }
+    .support-body p { font-size: 16px; line-height: 1.75; color: var(--color-text-secondary); }
+    .support-body p + p { margin-top: var(--spacing-sm); }
+    .support-donor-types { display: flex; flex-wrap: wrap; gap: 8px; }
+    .support-donor-type { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.03); border: 1px solid var(--color-border-light); border-radius: 100px; padding: 5px 12px; font-size: 12px; color: var(--color-text-secondary); }
+    .support-actions { display: flex; flex-direction: column; gap: var(--spacing-xs); }
+    .support-note { font-size: 12px; color: var(--color-text-muted); }
+
+    /* === BUY CARLOS A COFFEE === */
+    .coffee-section { border-top: 1px solid var(--color-border); }
+    .coffee-inner { display: grid; gap: var(--spacing-xl); }
+    .coffee-intro { max-width: 680px; }
+    .coffee-intro h2 { margin-bottom: var(--spacing-md); }
+    .coffee-intro p { font-size: 16px; line-height: 1.75; color: var(--color-text-secondary); margin-bottom: var(--spacing-sm); }
+    .coffee-card { background: var(--color-surface-2); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--spacing-lg); display: flex; flex-direction: column; gap: var(--spacing-md); }
+    .coffee-card h3 { font-size: 20px; color: var(--color-text); margin-bottom: 4px; }
+    .coffee-card > p { font-size: 14px; color: var(--color-text-secondary); line-height: 1.6; }
+    .coffee-tiers { display: flex; flex-direction: column; gap: 10px; }
+    .coffee-tier { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: border-color var(--transition), background var(--transition); text-decoration: none; }
+    .coffee-tier:hover { border-color: var(--color-primary-muted); background: rgba(56,189,248,0.05); }
+    .coffee-tier-left { display: flex; flex-direction: column; gap: 4px; }
+    .coffee-tier-label { font-size: 14px; font-weight: 600; color: var(--color-text); }
+    .coffee-tier-desc { font-size: 12px; color: var(--color-text-muted); }
+    .coffee-tier-amount { font-size: 18px; font-weight: 700; color: var(--color-primary); letter-spacing: -0.02em; }
+    .coffee-btn { display: block; width: 100%; text-align: center; background: var(--color-accent); color: #fff; font-family: var(--font-primary); font-weight: 700; font-size: 15px; padding: 16px; border: none; border-radius: var(--radius-md); cursor: pointer; transition: background var(--transition), transform var(--transition), box-shadow var(--transition); text-decoration: none; letter-spacing: 0.01em; }
+    .coffee-btn:hover { background: var(--color-primary); color: #050d1f; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(56,189,248,0.3); }
+
+    /* === FOOTER === */
+    .footer { padding: var(--spacing-xl) 0 var(--spacing-lg); border-top: 1px solid var(--color-border); }
+    .footer-inner { display: grid; gap: var(--spacing-lg); }
+    .footer-top { display: flex; flex-direction: column; gap: var(--spacing-md); }
+    .footer-brand { display: flex; flex-direction: column; gap: var(--spacing-sm); }
+
+    /* ── LOGO (footer) ── */
+    .footer-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; margin-bottom: 4px; }
+    .footer-logo-img { width: 40px; height: 40px; object-fit: contain; border-radius: var(--radius-sm); display: block; flex-shrink: 0; }
+    .footer-logo-text { font-size: 14px; font-weight: 700; color: var(--color-text); }
+
+    .footer-brand p { font-size: 13px; color: var(--color-text-muted); max-width: 320px; line-height: 1.65; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: var(--spacing-md); }
+    .footer-links a { font-size: 13px; color: var(--color-text-muted); text-decoration: none; transition: color var(--transition); }
+    .footer-links a:hover { color: var(--color-text-secondary); }
+    .footer-bottom { display: flex; flex-direction: column; gap: var(--spacing-xs); padding-top: var(--spacing-md); border-top: 1px solid var(--color-border); }
+    .footer-bottom p { font-size: 12px; color: var(--color-text-muted); }
+    .footer-mission-line { font-size: 12px; color: var(--color-text-muted); font-style: italic; }
+
+    /* === FOCUS STYLES === */
+    :focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; border-radius: var(--radius-sm); }
+
+    /* === TABLET: 640px+ === */
+    @media (min-width: 640px) {
+      :root { --container-pad: 32px; }
+      .solution-features { grid-template-columns: 1fr 1fr; }
+      .audience-grid { grid-template-columns: 1fr 1fr; }
+      .howto-cta-block { flex-direction: row; align-items: center; justify-content: space-between; }
+      .howto-cta-block p { max-width: 400px; }
+      .footer-top { flex-direction: row; justify-content: space-between; align-items: flex-start; }
+      .footer-bottom { flex-direction: row; justify-content: space-between; align-items: center; }
+      .support-actions { flex-direction: row; align-items: center; }
+      .coffee-inner { grid-template-columns: 1fr 1fr; align-items: start; }
+    }
+
+    /* === DESKTOP: 1024px+ === */
+    @media (min-width: 1024px) {
+      :root { --container-pad: 40px; }
+      .nav-links { display: flex; }
+      .nav-cta { display: inline-flex; }
+      .nav-mobile-toggle { display: none; }
+      .hero { padding: 140px 0 var(--spacing-2xl); }
+      .hero-stats { gap: var(--spacing-xl); }
+      .problem-inner { grid-template-columns: 320px 1fr; gap: var(--spacing-xl); align-items: start; }
+      .solution-inner { grid-template-columns: 340px 1fr; gap: var(--spacing-xl); align-items: start; }
+      .solution-features { grid-template-columns: 1fr; }
+      .credibility-inner { grid-template-columns: 1fr 1fr; gap: var(--spacing-xl); align-items: start; }
+      .audience-inner { grid-template-columns: 340px 1fr; gap: var(--spacing-xl); align-items: start; }
+      .audience-grid { grid-template-columns: 1fr; }
+      .howto-inner { grid-template-columns: 340px 1fr; gap: var(--spacing-xl); align-items: start; }
+      .support-inner { grid-template-columns: 1fr 1fr; gap: var(--spacing-xl); align-items: start; }
+      .support-card { grid-column: 1 / -1; }
+    }
+
+    /* === LARGE DESKTOP: 1280px+ === */
+    @media (min-width: 1280px) {
+      :root { --container-pad: 48px; }
+      .solution-features { grid-template-columns: 1fr 1fr; }
+      .audience-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* === ANIMATIONS === */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    .animate-in { opacity: 0; animation: fadeUp 500ms ease-out forwards; }
+    .animate-delay-1 { animation-delay: 80ms; }
+    .animate-delay-2 { animation-delay: 160ms; }
+    .animate-delay-3 { animation-delay: 240ms; }
+    .animate-delay-4 { animation-delay: 320ms; }
+    @media (prefers-reduced-motion: reduce) { .animate-in { animation: none; opacity: 1; } }
+
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     NAVIGATION
+════════════════════════════════════════════ -->
+<header>
+  <nav class="nav" id="mainNav" aria-label="Main navigation">
+    <div class="container">
+      <div class="nav-inner">
+
+        <a href="#" class="nav-logo" aria-label="Alpine AI Coach home">
+          <img src="logo.png" alt="Alpine AI Coach Logo" class="nav-logo-img">
+          <span class="nav-logo-text">Alpine AI Coach</span>
+        </a>
+
+        <ul class="nav-links" role="list">
+          <li><a href="#problem">The Problem</a></li>
+          <li><a href="#solution">The Solution</a></li>
+          <li><a href="#coach">The Coach</a></li>
+          <li><a href="#support">Support</a></li>
+        </ul>
+
+        <a href="https://t.me/AlpineAICoachBot" class="btn btn-primary nav-cta" target="_blank" rel="noopener noreferrer">
+          Start Free on Telegram
+        </a>
+
+        <button class="nav-mobile-toggle" id="mobileToggle" aria-expanded="false" aria-controls="mobileMenu" aria-label="Toggle navigation menu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </button>
+
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="nav-mobile-menu" id="mobileMenu" role="dialog" aria-label="Mobile navigation">
+    <a href="#problem" class="mobile-nav-link">The Problem</a>
+    <a href="#solution" class="mobile-nav-link">The Solution</a>
+    <a href="#coach" class="mobile-nav-link">The Coach</a>
+    <a href="#audience" class="mobile-nav-link">Who It's For</a>
+    <a href="#howto" class="mobile-nav-link">How It Works</a>
+    <a href="#support" class="mobile-nav-link">Support</a>
+    <a href="https://t.me/AlpineAICoachBot" target="_blank" rel="noopener noreferrer" style="margin-top: 16px; color: var(--color-primary);">
+      Start Free on Telegram →
+    </a>
+  </div>
+</header>
+
+<main>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+════════════════════════════════════════════ -->
+<section class="hero" aria-labelledby="hero-headline">
+  <div class="hero-bg" aria-hidden="true">
+    <div class="hero-bg-gradient"></div>
+    <div class="hero-bg-grid"></div>
+  </div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-tag animate-in">
+        <span class="hero-tag-dot" aria-hidden="true"></span>
+        Free coaching intelligence for every cyclist
+      </div>
+      <h1 class="hero-headline animate-in animate-delay-1" id="hero-headline">
+        Professional cycling knowledge<br>
+        has always been <em>out of reach.</em><br>
+        That ends here.
+      </h1>
+      <p class="hero-subheadline animate-in animate-delay-2">
+        Alpine AI Coach brings science-backed training analysis to every cyclist on the planet — regardless of where they live or what they can afford. Free, always.
+      </p>
+      <div class="hero-actions animate-in animate-delay-3">
+        <a href="https://t.me/AlpineAICoachBot" class="btn btn-primary" target="_blank" rel="noopener noreferrer" aria-label="Start using Alpine AI Coach for free on Telegram">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.01 9.471c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.088 14.57l2.948-.924c-.64-.2-.654-.64.136-.948l11.548-4.453c.53-.194.996.13.738.003z"/>
+          </svg>
+          Start Free on Telegram
+        </a>
+        <a href="#problem" class="btn btn-secondary">Learn more</a>
+      </div>
+      <p class="hero-footnote animate-in animate-delay-4">
+        No app download. No subscription. No barriers.
+      </p>
+      <div class="hero-stats animate-in animate-delay-4" role="list" aria-label="Key facts">
+        <div class="hero-stat-item" role="listitem">
+          <span class="hero-stat-value">Free</span>
+          <span class="hero-stat-label">Always, for the mission</span>
+        </div>
+        <div class="hero-stat-item" role="listitem">
+          <span class="hero-stat-value">RPE + HR</span>
+          <span class="hero-stat-label">Science-backed methods</span>
+        </div>
+        <div class="hero-stat-item" role="listitem">
+          <span class="hero-stat-value">Telegram</span>
+          <span class="hero-stat-label">Works on any device</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     THE PROBLEM
+════════════════════════════════════════════ -->
+<section class="section problem" id="problem" aria-labelledby="problem-heading">
+  <div class="container">
+    <div class="problem-inner">
+      <div class="problem-heading">
+        <span class="section-label" aria-hidden="true">The problem</span>
+        <h2 id="problem-heading">A gap that has existed for too long</h2>
+      </div>
+      <div class="problem-body">
+        <p>
+          In most parts of the world, a cyclist who wants structured, science-backed training has two options. Pay for a professional coach they cannot afford, or train without guidance and simply hope for the best.
+        </p>
+        <div class="problem-highlight">
+          <p>The tools that exist were built for markets that already have everything. They assume you have a power meter, a premium subscription, and a coach on standby.</p>
+        </div>
+        <p>
+          Most cyclists in the world have none of that. They train on passion, on instinct, on whatever they can piece together. That is not a lack of dedication. It is a lack of access. And that gap is unfair.
+        </p>
+        <p>
+          Alpine AI Coach was built because that gap is not inevitable. The knowledge exists. The technology exists. The only thing missing was someone willing to close it.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     THE SOLUTION
+════════════════════════════════════════════ -->
+<section class="section" id="solution" aria-labelledby="solution-heading">
+  <div class="container">
+    <div class="solution-inner">
+      <div class="solution-intro">
+        <span class="section-label" aria-hidden="true">The solution</span>
+        <h2 id="solution-heading">Professional coaching intelligence. No power meter required.</h2>
+        <p style="margin-top: 16px;">
+          Alpine AI Coach is a free Telegram bot that gives any cyclist access to personalised, science-backed training analysis. Send your session data, receive intelligent feedback grounded in real sport science.
+        </p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: var(--spacing-md);">
+        <div class="solution-features" role="list">
+
+          <div class="solution-feature" role="listitem">
+            <div class="solution-feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </div>
+            <div class="solution-feature-text">
+              <h4>RPE Analysis</h4>
+              <p>Rate of Perceived Exertion analysis that translates how your body actually felt into actionable training insight. Available free, always.</p>
+            </div>
+          </div>
+
+          <div class="solution-feature" role="listitem">
+            <div class="solution-feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </div>
+            <div class="solution-feature-text">
+              <h4>Heart Rate Analysis</h4>
+              <p>Deeper physiological insight from your heart rate data. Understanding your cardiovascular response means training smarter, not just harder.</p>
+            </div>
+          </div>
+
+          <div class="solution-feature" role="listitem">
+            <div class="solution-feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="solution-feature-text">
+              <h4>Personalised Feedback</h4>
+              <p>Not generic advice. Responses built around your specific session, your perceived effort, and your individual context.</p>
+            </div>
+          </div>
+
+          <div class="solution-feature" role="listitem">
+            <div class="solution-feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div class="solution-feature-text">
+              <h4>Works on Any Device</h4>
+              <p>Telegram runs on every smartphone. No app to download, no account beyond what most people already have. Accessibility is not an afterthought here.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CREDIBILITY
+════════════════════════════════════════════ -->
+<section class="section credibility" id="coach" aria-labelledby="credibility-heading">
+  <div class="container">
+    <div class="credibility-inner">
+      <div>
+        <span class="section-label" aria-hidden="true">The coach behind it</span>
+        <h2 id="credibility-heading">This is not a generic AI tool. It was built by someone who has lived the sport.</h2>
+        <p style="margin-top: 16px; font-size: 16px; line-height: 1.75;">
+          Most AI coaching tools are built by technologists who understand data. Alpine AI Coach was built by a former professional cyclist who understands both the data and what it actually feels like to train and compete at the highest level.
+        </p>
+      </div>
+      <div>
+        <div class="credibility-card">
+          <div class="credibility-header">
+            <div class="credibility-avatar" aria-hidden="true">C</div>
+            <div class="credibility-header-text">
+              <h3>Carlos</h3>
+              <p>Founder, Alpine AI Coach</p>
+            </div>
+          </div>
+          <div class="credibility-body">
+            <p>
+              Former professional cyclist. Degree in Sport Science. Master's in Sport Psychology. The coaching intelligence behind Alpine AI Coach is not generated from generic fitness databases. It is grounded in real competitive experience at a professional level, combined with formal academic training in how the body and mind actually respond to training load.
+            </p>
+          </div>
+          <div class="credibility-badges" role="list" aria-label="Credentials">
+            <span class="credibility-badge" role="listitem">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+              Sport Science Degree
+            </span>
+            <span class="credibility-badge" role="listitem">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+              Sport Psychology MSc
+            </span>
+            <span class="credibility-badge" role="listitem">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Professional Cyclist
+            </span>
+          </div>
+          <div class="credibility-quote">
+            <p>
+              I built this because the gap between what professional cyclists know and what amateur cyclists have access to in underserved parts of the world is unfair. I had everything needed to close it, so I did.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     WHO IT'S FOR
+════════════════════════════════════════════ -->
+<section class="section" id="audience" aria-labelledby="audience-heading">
+  <div class="container">
+    <div class="audience-inner">
+      <div class="audience-intro">
+        <span class="section-label" aria-hidden="true">Who it's for</span>
+        <h2 id="audience-heading">Built for the underserved. Open to everyone.</h2>
+        <p style="margin-top: 16px;">
+          Alpine AI Coach was designed with a specific cyclist in mind. But the door is open.
+        </p>
+      </div>
+      <div class="audience-grid" role="list">
+
+        <div class="audience-card audience-card-primary" role="listitem">
+          <div class="audience-card-icon" aria-hidden="true">🌍</div>
+          <div class="audience-card-text">
+            <h4>Cyclists in underserved markets</h4>
+            <p>This was built for the cyclist in Medellin, Nairobi, Jakarta, or anywhere else in the world where professional coaching is either unavailable or unaffordable. You deserve the same quality of guidance as any professional athlete.</p>
+          </div>
+        </div>
+
+        <div class="audience-card audience-card-secondary" role="listitem">
+          <div class="audience-card-icon" aria-hidden="true">🏔</div>
+          <div class="audience-card-text">
+            <h4>Gran Fondo and Sportive riders</h4>
+            <p>Training for a specific event without a dedicated coach. Whether it is your first gran fondo or your tenth, structured analysis helps you arrive ready.</p>
+          </div>
+        </div>
+
+        <div class="audience-card audience-card-secondary" role="listitem">
+          <div class="audience-card-icon" aria-hidden="true">🚴</div>
+          <div class="audience-card-text">
+            <h4>Weekend training cyclists</h4>
+            <p>Commuting through the week, training properly on weekends. Health-conscious riders who take their performance seriously without competing professionally.</p>
+          </div>
+        </div>
+
+        <div class="audience-card audience-card-secondary" role="listitem">
+          <div class="audience-card-icon" aria-hidden="true">🗺</div>
+          <div class="audience-card-text">
+            <h4>Cycling tourists and bikepackers</h4>
+            <p>Training with a specific physical goal in mind — a multi-day route, a cycling holiday, a personal challenge. You are not chasing numbers. You want to feel ready.</p>
+          </div>
+        </div>
+
+        <div class="audience-card audience-card-secondary" role="listitem">
+          <div class="audience-card-icon" aria-hidden="true">🚴</div>
+          <div class="audience-card-text">
+            <h4>Professionals who ride seriously</h4>
+            <p>Doctors, lawyers, engineers in their 30s, 40s, and 50s who chose cycling as their sport. Training consistently, caring about doing it right, not obsessing over power data.</p>
+          </div>
+        </div>
+
+        <div class="audience-card audience-card-secondary" role="listitem">
+          <div class="audience-card-icon" aria-hidden="true">🤝</div>
+          <div class="audience-card-text">
+            <h4>Club cyclists in developed markets</h4>
+            <p>Not every club rider is a data scientist. Many ride for community, fitness, and the joy of it. This tool gives them professional-level insight without the complexity.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     HOW IT WORKS
+════════════════════════════════════════════ -->
+<section class="section howto" id="howto" aria-labelledby="howto-heading">
+  <div class="container">
+    <div class="howto-inner">
+      <div class="howto-intro">
+        <span class="section-label" aria-hidden="true">How it works</span>
+        <h2 id="howto-heading">Three steps. No friction.</h2>
+        <p style="margin-top: 16px;">
+          No app to download. No complex setup. If you have Telegram, you are ready.
+        </p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: var(--spacing-md);">
+        <div class="howto-steps" role="list">
+
+          <div class="howto-step" role="listitem">
+            <div class="howto-step-number" aria-hidden="true">01</div>
+            <div class="howto-step-content">
+              <h4>Open Telegram and find Alpine AI Coach</h4>
+              <p>Search for Alpine AI Coach on Telegram or follow the direct link. No account setup beyond what you already have. No permissions beyond a message.</p>
+            </div>
+          </div>
+
+          <div class="howto-step" role="listitem">
+            <div class="howto-step-number" aria-hidden="true">02</div>
+            <div class="howto-step-content">
+              <h4>Log your session using RPE or heart rate data</h4>
+              <p>Tell the bot how your session went. Perceived effort, heart rate data, duration, or a combination. The bot guides you through what it needs. No special equipment required.</p>
+            </div>
+          </div>
+
+          <div class="howto-step" role="listitem">
+            <div class="howto-step-number" aria-hidden="true">03</div>
+            <div class="howto-step-content">
+              <h4>Receive personalised analysis and feedback</h4>
+              <p>Science-backed, specific to your session, and immediately practical. Not generic advice. Real coaching intelligence built on sport science and professional experience.</p>
+            </div>
+          </div>
+
+        </div>
+        <div class="howto-cta-block">
+          <p>Free to start. Always free for the mission it was built for.</p>
+          <a href="https://t.me/AlpineAICoachBot" class="btn btn-primary" target="_blank" rel="noopener noreferrer" aria-label="Start using Alpine AI Coach on Telegram">
+            Start on Telegram
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     BUY CARLOS A COFFEE ☕
+════════════════════════════════════════════ -->
+<section class="section coffee-section" id="coffee" aria-labelledby="coffee-heading">
+  <div class="container">
+    <div class="coffee-inner">
+      <div class="coffee-intro">
+        <span class="section-label" aria-hidden="true">Buy Carlos a coffee</span>
+        <h2 id="coffee-heading">Keep it free for everyone. ☕</h2>
+        <p>
+          Alpine AI Coach is free because the cyclists it was built for cannot pay for it, and they should not have to. That will not change.
+        </p>
+        <p>
+          If this tool has helped your training and you have the means to give something back — a small contribution goes directly toward keeping the project alive and the access free for those who need it most.
+        </p>
+        <p>
+          There is no obligation. There is just a project worth keeping alive, built by one person who believed the gap was worth closing.
+        </p>
+      </div>
+      <div class="coffee-card">
+        <h3>Support the mission ☕</h3>
+        <p>Choose what feels right. Every contribution keeps Alpine AI Coach free for riders who can't afford anything else.</p>
+        <div class="coffee-tiers">
+          <a href="#" class="coffee-tier">
+            <div class="coffee-tier-left">
+              <span class="coffee-tier-label">☕ One Coffee</span>
+              <span class="coffee-tier-desc">A small thank you</span>
+            </div>
+            <span class="coffee-tier-amount">$3</span>
+          </a>
+          <a href="#" class="coffee-tier">
+            <div class="coffee-tier-left">
+              <span class="coffee-tier-label">🚴 One Training Session</span>
+              <span class="coffee-tier-desc">Covers a week of AI compute</span>
+            </div>
+            <span class="coffee-tier-amount">$10</span>
+          </a>
+          <a href="#" class="coffee-tier">
+            <div class="coffee-tier-left">
+              <span class="coffee-tier-label">🏆 Race Support</span>
+              <span class="coffee-tier-desc">Keeps it free for 10 riders</span>
+            </div>
+            <span class="coffee-tier-amount">$25</span>
+          </a>
+        </div>
+        <a href="#" class="coffee-btn">Support the project →</a>
+        <p style="font-size: 12px; color: var(--color-text-muted); text-align: center;">Any amount. One time. No account required.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════ -->
+<footer class="footer" aria-label="Site footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="#" class="footer-logo" aria-label="Alpine AI Coach home">
+            <img src="logo.png" alt="Alpine AI Coach" class="footer-logo-img">
+            <span class="footer-logo-text">Alpine AI Coach</span>
+          </a>
+          <p>Free AI-powered cycling coaching built on real sport science. For every cyclist, everywhere.</p>
+          <p>Built by Carlos — former professional cyclist, Sport Science and Sport Psychology.</p>
+        </div>
+        <nav class="footer-links" aria-label="Footer navigation">
+          <a href="#problem">The Problem</a>
+          <a href="#solution">The Solution</a>
+          <a href="#coach">The Coach</a>
+          <a href="#audience">Who It's For</a>
+          <a href="#howto">How It Works</a>
+          <a href="#support">Support</a>
+          <a href="https://t.me/AlpineAICoachBot" target="_blank" rel="noopener noreferrer">Telegram</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Alpine AI Coach. All rights reserved.</p>
+        <p class="footer-mission-line">Built to close the gap. Free for the mission.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════ -->
+<script>
+  // === STATE & SELECTORS ===
+  const nav = document.getElementById('mainNav');
+  const mobileToggle = document.getElementById('mobileToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+  // === NAVIGATION SCROLL BEHAVIOR ===
+  function handleNavScroll() {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  }
+  window.addEventListener('scroll', handleNavScroll, { passive: true });
+  handleNavScroll();
+
+  // === MOBILE MENU TOGGLE ===
+  function openMobileMenu() {
+    mobileMenu.classList.add('open');
+    mobileToggle.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+    const firstLink = mobileMenu.querySelector('a');
+    if (firstLink) firstLink.focus();
+  }
+
+  function closeMobileMenu() {
+    mobileMenu.classList.remove('open');
+    mobileToggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+    mobileToggle.focus();
+  }
+
+  mobileToggle.addEventListener('click', function() {
+    mobileMenu.classList.contains('open') ? closeMobileMenu() : openMobileMenu();
+  });
+
+  mobileNavLinks.forEach(function(link) {
+    link.addEventListener('click', closeMobileMenu);
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && mobileMenu.classList.contains('open')) closeMobileMenu();
+  });
+
+  // === SMOOTH SCROLL FOR ANCHOR LINKS ===
+  document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+    anchor.addEventListener('click', function(e) {
+      const targetId = this.getAttribute('href');
+      if (targetId === '#') return;
+      const target = document.querySelector(targetId);
+      if (target) {
+        e.preventDefault();
+        const navHeight = nav.offsetHeight;
+        const targetTop = target.getBoundingClientRect().top + window.scrollY - navHeight - 16;
+        window.scrollTo({ top: targetTop, behavior: 'smooth' });
+      }
+    });
+  });
+
+  // === INTERSECTION OBSERVER FOR SCROLL ANIMATIONS ===
+  const observerOptions = { threshold: 0.12, rootMargin: '0px 0px -40px 0px' };
+
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  const animatableElements = document.querySelectorAll(
+    '.problem-inner, .solution-feature, .credibility-card, .audience-card, .howto-step, .support-card, .coffee-card'
+  );
+
+  animatableElements.forEach(function(el, index) {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 500ms ease-out ' + (index % 4 * 80) + 'ms, transform 500ms ease-out ' + (index % 4 * 80) + 'ms';
+    observer.observe(el);
+  });
+
+  // === RESPECT REDUCED MOTION PREFERENCE ===
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    animatableElements.forEach(function(el) {
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+      el.style.transition = 'none';
+    });
+  }
+</script>
+
+</body>
+</html>

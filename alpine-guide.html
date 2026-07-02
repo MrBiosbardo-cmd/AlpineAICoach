@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alpine AI Coach — User Guide</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+
+    /* ═══════════════════════════════════
+       SCREEN STYLES
+    ═══════════════════════════════════ */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: #0a1628;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px 80px;
+      min-height: 100vh;
+    }
+
+    /* ── DOWNLOAD BUTTON ── */
+    #downloadBtn {
+      position: fixed;
+      top: 20px;
+      right: 24px;
+      z-index: 9999;
+      background: #38bdf8;
+      color: #050d1f;
+      border: none;
+      border-radius: 8px;
+      padding: 13px 26px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 20px rgba(56,189,248,0.45);
+      transition: all 0.2s ease;
+      letter-spacing: 0.01em;
+    }
+    #downloadBtn:hover {
+      background: #f0f8ff;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 28px rgba(56,189,248,0.5);
+    }
+    #downloadBtn svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+    /* ── DOCUMENT WRAPPER ── */
+    #pdfContent {
+      width: 794px;
+      background: #050d1f;
+      color: #f0f8ff;
+      font-family: 'Inter', Arial, sans-serif;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+    }
+
+    /* ── COVER ── */
+    .doc-cover {
+      background: linear-gradient(135deg, #050d1f 0%, #0a1628 60%, #0f1e35 100%);
+      border-bottom: 2px solid #38bdf8;
+      padding: 52px 56px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+    .doc-cover::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 340px; height: 340px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(56,189,248,0.11) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .doc-cover::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+    }
+
+    .cover-top {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 36px;
+    }
+    .cover-logo {
+      width: 72px;
+      height: 72px;
+      object-fit: contain;
+      border-radius: 10px;
+      flex-shrink: 0;
+    }
+    .cover-brand-name {
+      font-size: 22pt;
+      font-weight: 700;
+      color: #f0f8ff;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    .cover-brand-tag {
+      font-size: 9pt;
+      font-weight: 500;
+      color: #38bdf8;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+    .cover-divider {
+      width: 48px;
+      height: 2px;
+      background: #38bdf8;
+      margin-bottom: 20px;
+      border-radius: 2px;
+    }
+    .cover-title {
+      font-size: 30pt;
+      font-weight: 700;
+      color: #f0f8ff;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+    .cover-subtitle {
+      font-size: 12pt;
+      color: #94b8d4;
+      font-weight: 400;
+      line-height: 1.65;
+      max-width: 520px;
+    }
+    .cover-meta {
+      margin-top: 36px;
+      display: flex;
+      gap: 36px;
+    }
+    .cover-meta-label {
+      font-size: 8pt;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #3a5878;
+      display: block;
+      margin-bottom: 3px;
+    }
+    .cover-meta-value {
+      font-size: 10pt;
+      font-weight: 500;
+      color: #94b8d4;
+    }
+
+    /* ── DOCUMENT BODY ── */
+    .doc-body {
+      padding: 48px 56px 56px;
+      background: #050d1f;
+    }
+
+    /* ── SECTION LABELS ── */
+    .section-label {
+      display: inline-block;
+      font-size: 8pt;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #1e6a9a;
+      margin-bottom: 8px;
+    }
+
+    .section-block { margin-bottom: 40px; }
+
+    /* ── HEADINGS ── */
+    h2 {
+      font-size: 18pt;
+      font-weight: 700;
+      color: #f0f8ff;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #1a2d4a;
+    }
+    h3 {
+      font-size: 13pt;
+      font-weight: 600;
+      color: #38bdf8;
+      letter-spacing: -0.01em;
+      line-height: 1.3;
+      margin-bottom: 10px;
+      margin-top: 28px;
+    }
+    h4 {
+      font-size: 11pt;
+      font-weight: 600;
+      color: #7dd3fc;
+      margin-bottom: 8px;
+      margin-top: 20px;
+    }
+
+    /* ── PARAGRAPH ── */
+    p {
+      font-size: 10.5pt;
+      color: #94b8d4;
+      line-height: 1.75;
+      margin-bottom: 12px;
+    }
+    strong { color: #f0f8ff; font-weight: 600; }
+
+    /* ── DIVIDER ── */
+    .doc-hr {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, #1a2d4a, #243d5e, #1a2d4a);
+      margin: 32px 0;
+      border: none;
+      display: block;
+    }
+
+    /* ── BULLET LIST ── */
+    .doc-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 16px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .doc-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 10.5pt;
+      color: #94b8d4;
+      line-height: 1.65;
+      padding: 10px 14px;
+      background: #0a1628;
+      border: 1px solid #1a2d4a;
+      border-radius: 6px;
+    }
+    .doc-list li::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      min-width: 6px;
+      border-radius: 50%;
+      background: #38bdf8;
+      margin-top: 6px;
+    }
+    .doc-list li strong { color: #f0f8ff; }
+
+    /* ── NOTE BOX ── */
+    .note-box {
+      background: rgba(56,189,248,0.06);
+      border: 1px solid rgba(56,189,248,0.2);
+      border-left: 3px solid #38bdf8;
+      border-radius: 6px;
+      padding: 16px 20px;
+      margin: 18px 0;
+    }
+    .note-box p {
+      font-size: 10pt;
+      color: #94b8d4;
+      margin: 0;
+      line-height: 1.7;
+    }
+    .note-box p strong { color: #7dd3fc; }
+
+    /* ── INFO BOX ── */
+    .info-box {
+      background: rgba(14,165,233,0.06);
+      border: 1px solid rgba(14,165,233,0.18);
+      border-left: 3px solid #0ea5e9;
+      border-radius: 6px;
+      padding: 16px 20px;
+      margin: 14px 0;
+    }
+    .info-box p {
+      font-size: 10pt;
+      color: #94b8d4;
+      margin: 0;
+      line-height: 1.7;
+    }
+    .info-box p strong { color: #38bdf8; }
+
+    /* ── TABLES ── */
+    .doc-table-wrap {
+      margin: 18px 0;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #1a2d4a;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 10pt; }
+    thead tr { background: #0a1628; border-bottom: 2px solid #243d5e; }
+    thead th {
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 8.5pt;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #38bdf8;
+    }
+    tbody tr { border-bottom: 1px solid #1a2d4a; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:nth-child(odd)  { background: #050d1f; }
+    tbody tr:nth-child(even) { background: rgba(10,22,40,0.6); }
+    tbody td {
+      padding: 11px 16px;
+      color: #94b8d4;
+      vertical-align: top;
+      line-height: 1.6;
+    }
+    tbody td:first-child { color: #f0f8ff; font-weight: 500; }
+
+    /* RPE color coding */
+    .rpe-1 td:first-child, .rpe-2 td:first-child { color: #6ee7b7; }
+    .rpe-3 td:first-child { color: #a7f3d0; }
+    .rpe-4 td:first-child, .rpe-5 td:first-child { color: #fde68a; }
+    .rpe-6 td:first-child { color: #fbbf24; }
+    .rpe-7 td:first-child { color: #fb923c; }
+    .rpe-8 td:first-child { color: #f87171; }
+    .rpe-9 td:first-child { color: #ef4444; }
+    .rpe-10 td:first-child { color: #dc2626; }
+
+    /* ── STEP LIST ── */
+    .step-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 16px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .step-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 12px 16px;
+      background: #0a1628;
+      border: 1px solid #1a2d4a;
+      border-radius: 8px;
+      font-size: 10.5pt;
+      color: #94b8d4;
+      line-height: 1.65;
+    }
+    .step-num {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(56,189,248,0.1);
+      border: 1px solid rgba(56,189,248,0.25);
+      font-size: 10pt;
+      font-weight: 700;
+      color: #38bdf8;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    /* ── CODE STYLE ── */
+    .cmd-code {
+      font-family: 'Courier New', Courier, monospace;
+      background: rgba(56,189,248,0.08);
+      color: #38bdf8;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 9.5pt;
+      border: 1px solid rgba(56,189,248,0.15);
+    }
+
+    /* ── CLOSING BLOCK ── */
+    .doc-closing {
+      background: linear-gradient(135deg, #0a1628 0%, #0f1e35 100%);
+      border: 1px solid #1a2d4a;
+      border-top: 2px solid #38bdf8;
+      border-radius: 10px;
+      padding: 36px 40px;
+      margin-top: 40px;
+      text-align: center;
+    }
+    .doc-closing h2 {
+      border: none;
+      padding: 0;
+      font-size: 20pt;
+      color: #38bdf8;
+      margin-bottom: 14px;
+    }
+    .doc-closing p {
+      font-size: 11pt;
+      color: #94b8d4;
+      max-width: 480px;
+      margin: 0 auto 10px;
+    }
+
+    /* ── FOOTER ── */
+    .doc-footer {
+      background: #030810;
+      border-top: 1px solid #1a2d4a;
+      padding: 20px 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .doc-footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .doc-footer-logo img {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+    .doc-footer-name { font-size: 9pt; font-weight: 600; color: #3a5878; }
+    .doc-footer-text { font-size: 8.5pt; color: #3a5878; }
+
+
+    /* ═══════════════════════════════════
+       PRINT STYLES
+       These override everything when
+       Chrome prints / saves as PDF
+    ═══════════════════════════════════ */
+    @media print {
+
+      @page {
+        size: A4;
+        margin: 0;
+      }
+
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+      }
+
+      body {
+        background: #050d1f !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: block !important;
+      }
+
+      #downloadBtn { display: none !important; }
+
+      #pdfContent {
+        width: 100% !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+      }
+
+      .section-block { page-break-inside: avoid; }
+      .doc-table-wrap { page-break-inside: avoid; }
+      .note-box { page-break-inside: avoid; }
+      .info-box { page-break-inside: avoid; }
+      .doc-closing { page-break-inside: avoid; }
+      .doc-footer { page-break-inside: avoid; }
+
+      h2 { page-break-after: avoid; }
+      h3 { page-break-after: avoid; }
+      h4 { page-break-after: avoid; }
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- DOWNLOAD BUTTON -->
+<button id="downloadBtn" onclick="triggerPrint()">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+    <polyline points="7 10 12 15 17 10"/>
+    <line x1="12" y1="15" x2="12" y2="3"/>
+  </svg>
+  Download PDF
+</button>
+
+<!-- PDF CONTENT -->
+<div id="pdfContent">
+
+  <!-- ══ COVER ══ -->
+  <div class="doc-cover">
+    <div class="cover-top">
+      <img src="logo.png" alt="Alpine AI Coach" class="cover-logo">
+      <div>
+        <div class="cover-brand-name">Alpine AI Coach</div>
+        <div class="cover-brand-tag">AI-Powered Cycling Coaching</div>
+      </div>
+    </div>
+    <div class="cover-divider"></div>
+    <div class="cover-title">User Guide</div>
+    <div class="cover-subtitle">Everything you need to get started, understand what Alpine AI Coach can do for you, and make the most of your training from day one.</div>
+    <div class="cover-meta">
+      <div>
+        <span class="cover-meta-label">Built by</span>
+        <span class="cover-meta-value">Carlos — Former Professional Cyclist</span>
+      </div>
+      <div>
+        <span class="cover-meta-label">Platform</span>
+        <span class="cover-meta-value">Telegram</span>
+      </div>
+      <div>
+        <span class="cover-meta-label">Access</span>
+        <span class="cover-meta-value">Free — Always</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ BODY ══ -->
+  <div class="doc-body">
+
+    <!-- ABOUT -->
+    <div class="section-block">
+      <span class="section-label">About This Document</span>
+      <h2>About This Document</h2>
+      <p>This guide is designed to help you get started with Alpine AI Coach, understand what it can do for you, and make the most of your experience from day one.</p>
+    </div>
+
+    <hr class="doc-hr">
+
+    <!-- WHAT IS -->
+    <div class="section-block">
+      <span class="section-label">Overview</span>
+      <h2>What is Alpine AI Coach?</h2>
+      <p>Alpine AI Coach is a free, AI-powered cycling coaching assistant that runs directly inside Telegram. It was built by Carlos, a former Spanish professional cyclist, with one clear goal: to give every serious cyclist access to the kind of structured coaching and sport science support that used to be available only to funded athletes and professional teams.</p>
+      <p>Whether you are training for your first gran fondo, working toward a podium finish, or simply trying to ride smarter and recover better, Alpine AI Coach is designed to support your journey with personalised, evidence-based guidance.</p>
+      <div class="note-box">
+        <p>The gap between amateur and professional cyclists is rarely about talent. It is almost always about access — to structured coaching, sport science knowledge, and consistent feedback. Alpine AI Coach exists to close that gap, making professional-level coaching support available to any motivated cyclist, anywhere in the world, <strong>completely free of charge.</strong></p>
+      </div>
+    </div>
+
+    <hr class="doc-hr">
+
+    <!-- FEATURES -->
+    <div class="section-block">
+      <span class="section-label">Features</span>
+      <h2>What Can Alpine AI Coach Do for You?</h2>
+      <p>Alpine AI Coach provides a comprehensive set of coaching tools, all available through simple Telegram conversations:</p>
+      <ul class="doc-list">
+        <li><strong>Personalised training guidance</strong> based on your current fitness, goals, and ride history</li>
+        <li><strong>Ride logging and analysis</strong> so your sessions are tracked and understood over time</li>
+        <li><strong>Weekly performance feedback</strong> that helps you see progress and adjust your training</li>
+        <li><strong>Sport science tips</strong> covering nutrition, recovery, pacing, and race preparation</li>
+        <li><strong>RPE-based training</strong> that works without power meters, heart rate monitors, or any expensive equipment</li>
+        <li><strong>24/7 availability</strong> so you can log a ride or review your week at any time</li>
+      </ul>
+    </div>
+
+    <hr class="doc-hr">
+
+    <!-- HOW IT WORKS -->
+    <div class="section-block">
+      <span class="section-label">How It Works</span>
+      <h2>How Does Alpine AI Coach Work?</h2>
+      <p>Alpine AI Coach runs entirely inside Telegram. There is nothing to download, no subscription to manage, and no app to install separately. Simply open your Telegram app and start a conversation with the bot.</p>
+      <p>The bot communicates with you in plain, clear language. You describe your rides, share how you felt, and Alpine AI Coach responds with coaching feedback tailored specifically to you.</p>
+    </div>
+
+    <hr class="doc-hr">
+
+    <!-- RIDE LOGGING -->
+    <div class="section-block">
+      <span class="section-label">Ride Logging</span>
+      <h2>Logging Your Rides</h2>
+
+      <h3>The Basics: All You Need to Get Started</h3>
+      <p>When you log a ride with Alpine AI Coach, the core information you need is simple:</p>
+      <ul class="doc-list">
+        <li>Distance covered</li>
+        <li>Duration of the session</li>
+        <li>RPE — how hard the ride felt on a scale of 1 to 10</li>
+      </ul>
+      <p>That is all you need. <strong>No technology required whatsoever.</strong></p>
+
+      <h3>If You Ride With a Basic Cycling Computer</h3>
+      <p>If you have a basic cycling computer, you can enrich your ride log with additional data that helps Alpine AI Coach give you even more precise and personalised feedback. Useful metrics to include are:</p>
+      <ul class="doc-list">
+        <li><strong>Accumulated altitude</strong> — the total elevation gained during the ride, which gives important context about effort and workload. The same distance at RPE 7 on flat roads and in the mountains are two very different training sessions.</li>
+        <li><strong>Average cadence</strong> — your average pedalling revolutions per minute, which helps the coach understand your riding style, efficiency, and whether your training is developing the neuromuscular patterns that match your goals.</li>
+        <li><strong>Heart rate</strong> — if your cycling computer includes a heart rate monitor, you can manually enter your Average HR and/or Maximum HR for the session. This adds valuable physiological context to your ride data and allows Alpine AI Coach to give you deeper, more accurate feedback.</li>
+      </ul>
+      <p>You do not need a GPS device or a smartphone to use Alpine AI Coach effectively. But if your computer records these numbers, sharing them makes your coaching data richer and your feedback more accurate.</p>
+      <div class="note-box">
+        <p><strong>A note on heart rate monitoring:</strong> A heart rate monitor is not compulsory. RPE is the foundation of how Alpine AI Coach analyses your training, and it works completely on its own. Heart rate data, when available, adds an extra layer of precision to the analysis — but it is always supplementary, never a requirement.</p>
+      </div>
+
+      <h3>If You Ride With a Smartphone or GPS Device</h3>
+      <p>If you ride with a smartphone app such as Strava, Komoot, or similar, or with a Garmin device or any equivalent GPS cycling computer, you can upload your ride file directly to Alpine AI Coach.</p>
+      <p>Supported file formats are:</p>
+      <ul class="doc-list">
+        <li><strong>.fit</strong> — the standard file format used by Garmin and most GPS cycling devices</li>
+        <li><strong>.gpx</strong> — a widely supported format used by smartphones and many cycling apps</li>
+      </ul>
+      <p>Simply export the file from your device or app after your ride and upload it directly in your Telegram conversation with Alpine AI Coach.</p>
+
+      <h4>Note on Device Data and File Uploads</h4>
+      <p>If your device records GPS and movement data, file uploads will import ride metrics including distance, duration, elevation, speed, cadence, and GPS route.</p>
+      <div class="info-box">
+        <p><strong>Heart rate data:</strong> Where heart rate is present in your file, it will be fully used by the coach, including average HR, max HR, and HR drift analysis. You can also log HR manually after any session.</p>
+      </div>
+      <div class="info-box">
+        <p><strong>Power meter data:</strong> Advanced metrics derived from power output, such as normalised power, training stress score, and intensity factor, will be available in a future update. Alpine AI Coach will continue to expand its data processing capabilities over time.</p>
+      </div>
+    </div>
+
+    <hr class="doc-hr">
+
+    <!-- RPE -->
+    <div class="section-block">
+      <span class="section-label">Core Method</span>
+      <h2>Understanding RPE: Your Most Important Tool</h2>
+      <p>Alpine AI Coach uses RPE, which stands for <strong>Rate of Perceived Exertion</strong>, as the primary method for logging ride intensity. RPE is a 1 to 10 scale that measures how hard your ride feels. Professional coaches have used it for decades, and it works without any technology at all.</p>
+      <div class="doc-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:80px;">RPE</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="rpe-1"><td>1</td><td>Very easy. Recovery spin, barely any effort.</td></tr>
+            <tr class="rpe-2"><td>2</td><td>Very light. Easy warm-up pace.</td></tr>
+            <tr class="rpe-3"><td>3</td><td>Easy. Long endurance ride, fully comfortable.</td></tr>
+            <tr class="rpe-4"><td>4</td><td>Moderate easy. Steady pace, breathing slightly elevated.</td></tr>
+            <tr class="rpe-5"><td>5</td><td>Moderate. Tempo effort, can speak in short phrases.</td></tr>
+            <tr class="rpe-6"><td>6</td><td>Moderate hard. Sustained effort, conversation is difficult.</td></tr>
+            <tr class="rpe-7"><td>7</td><td>Hard. Threshold pace, breathing heavy and controlled.</td></tr>
+            <tr class="rpe-8"><td>8</td><td>Very hard. Race pace or hard interval effort.</td></tr>
+            <tr class="rpe-9"><td>9</td><td>Extremely hard. Close to your absolute limit.</td></tr>
+            <tr class="rpe-10"><td>10</td><td>Maximum. Sprint finish or all-out effort only.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note-box">
+        <p><strong>How to use it:</strong> After each ride, ask yourself how hard the session felt overall — not just the hardest moment. That number is your RPE. Be honest with yourself. There is no right or wrong answer, and accuracy over time is what matters.</p>
+      </div>
+      <p>Alpine AI Coach uses your RPE data to understand your training load, monitor fatigue, and give you better guidance as your fitness evolves. Heart rate data, where available, adds depth to that picture — but <strong>RPE is always the foundation.</strong></p>
+    </div>
+
+    <hr class="doc-hr">
+
+    <!-- QUICK SUMMARY -->
+    <div class="section-block">
+      <span class="section-label">Quick Reference</span>
+      <h2>A Quick Summary: What Can I Log?</h2>
+      <div class="doc-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>What You Have</th>
+              <th>What You Can Log</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Nothing except memory</td>
+              <td>Distance, duration, RPE</td>
+            </tr>
+            <tr>
+              <td>Basic cycling computer</td>
+              <td>Distance, duration, RPE, elevation, cadence</td>
+            </tr>
+            <tr>
+              <td>Basic cycling computer with HR monitor</td>
+              <td>All of the above, plus Average HR and/or Max HR entered manually</td>
+            </tr>
+            <tr>
+              <td>Smartphone or GPS device</td>
+              <td>Upload a .fit or .gpx file directly</td>
+            </tr>
+            <tr>
+              <td>GPS device with heart rate data in the file</td>
+              <td>Full file upload — heart rate data will be read and used automatically</td>
+            </tr>
+            <tr>
+              <td>Power meter</td>
+              <td>Basic metrics via file upload. Advanced power metrics coming soon.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <hr class="doc-hr">
+
+    <!-- GETTING STARTED -->
+    <div class="section-block">
+      <span class="section-label">Setup</span>
+      <h2>Getting Started</h2>
+      <p>Follow these steps to begin your first session with Alpine AI Coach:</p>
+      <ol class="step-list">
+        <li><span class="step-num">1</span>Open Telegram and search for the Alpine AI Coach bot</li>
+        <li><span class="step-num">2</span>Start the conversation by typing <span class="cmd-code">/start</span></li>
+        <li><span class="step-num">3</span>Complete the short onboarding so the bot understands your current fitness level and goals</li>
+        <li><span class="step-num">4</span>Log your first ride after your next training session</li>
+        <li><span class="step-num">5</span>Type <span class="cmd-code">/help</span> at any time to see a full list of available commands and features</li>
+      </ol>
+    </div>
+
+    <hr class="doc-hr">
+
+    <!-- COMMANDS -->
+    <div class="section-block">
+      <span class="section-label">Commands</span>
+      <h2>Key Commands</h2>
+      <div class="doc-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:160px;">Command</th>
+              <th>What it does</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="cmd-code">/start</span></td>
+              <td>Begin your session or restart onboarding</td>
+            </tr>
+            <tr>
+              <td><span class="cmd-code">/log</span></td>
+              <td>Log a completed ride with distance, duration, and RPE</td>
+            </tr>
+            <tr>
+              <td><span class="cmd-code">/feedback</span></td>
+              <td>Request a review of your recent training</td>
+            </tr>
+            <tr>
+              <td><span class="cmd-code">/tip</span></td>
+              <td>Get a sport science tip for the day</td>
+            </tr>
+            <tr>
+              <td><span class="cmd-code">/help</span></td>
+              <td>View all available commands and explanations</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <hr class="doc-hr">
+
+    <!-- GOOD TO KNOW -->
+    <div class="section-block">
+      <span class="section-label">Good to Know</span>
+      <h2>A Few Things Worth Knowing</h2>
+      <ul class="doc-list">
+        <li>All coaching guidance is personalised over time as the bot learns more about your riding patterns</li>
+        <li>Alpine AI Coach is most effective when you log rides consistently and engage honestly with feedback</li>
+        <li>Heart rate data is optional but welcome — the more context you share, the more precise the analysis</li>
+        <li>New features and expanded data capabilities are added on a continuous basis</li>
+        <li>Your data is used only to improve your personalised coaching experience</li>
+      </ul>
+    </div>
+
+    <!-- CLOSING -->
+    <div class="doc-closing">
+      <h2>Welcome to Alpine AI Coach. Now Go Ride.</h2>
+      <p>You now have everything you need to get started. Log your rides, be honest with your effort, and let Alpine AI Coach do the rest.</p>
+      <p>If something does not work as expected, or if you have suggestions, please share them. Every piece of feedback is read and taken seriously.</p>
+    </div>
+
+  </div>
+
+  <!-- ══ FOOTER ══ -->
+  <div class="doc-footer">
+    <div class="doc-footer-logo">
+      <img src="logo.png" alt="Alpine AI Coach">
+      <span class="doc-footer-name">Alpine AI Coach</span>
+    </div>
+    <span class="doc-footer-text">Free forever. Built by Carlos. Powered by real sport science.</span>
+    <span class="doc-footer-text">© 2026 Alpine AI Coach</span>
+  </div>
+
+</div>
+
+<script>
+  function triggerPrint() {
+    window.print();
+  }
+</script>
+
+</body>
+</html>
