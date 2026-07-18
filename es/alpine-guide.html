@@ -38,7 +38,7 @@
       background: rgba(5, 13, 31, 0.9);
       color: #94b8d4;
       text-decoration: none;
-      font-size: 19px; line-height: 1;
+      line-height: 1;
       font-weight: 600;
       transition: all 0.2s ease;
       backdrop-filter: blur(4px);
@@ -57,12 +57,12 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      font-size: 19px; line-height: 1;
+      line-height: 1;
       font-weight: 500;
     }
-    .lang-bar .lang-current { opacity:1; cursor:default; }
+    .lang-bar .lang-current { opacity:1; cursor:default; border-radius:2px; outline:2px solid #38bdf8; outline-offset:2px; display:inline-flex; }
     .lang-bar .lang-sep { display:none; }
-    .lang-bar a { text-decoration:none; opacity:0.45; transition:opacity 0.2s; }
+    .lang-bar a { text-decoration:none; opacity:0.5; transition:opacity 0.2s; display:inline-flex; }
     .lang-bar a:hover { opacity:1; }
 
     /* ── DOCUMENT WRAPPER ── */
@@ -492,11 +492,11 @@
 <a href="index.html" class="back-home-link" aria-label="Volver a la página de inicio de Alpine AI Coach">&larr; Volver a Alpine AI Coach</a>
 
 <div class="lang-bar">
-  <a href="../alpine-guide.html" title="English">&#127468;&#127463;</a>
+  <a href="../alpine-guide.html" title="English"><img src="https://flagcdn.com/20x15/gb.png" width="20" height="15" alt="English"></a>
   <span class="lang-sep">|</span>
-  <a href="../fr/alpine-guide.html" title="Fran&ccedil;ais">&#127467;&#127479;</a>
+  <a href="../fr/alpine-guide.html" title="Fran&ccedil;ais"><img src="https://flagcdn.com/20x15/fr.png" width="20" height="15" alt="Fran&ccedil;ais"></a>
   <span class="lang-sep">|</span>
-  <span class="lang-current" title="Espa&ntilde;ol">&#127466;&#127480;</span>
+  <span class="lang-current" title="Espa&ntilde;ol"><img src="https://flagcdn.com/20x15/es.png" width="20" height="15" alt="Espa&ntilde;ol"></span>
 </div>
 
 <!-- PDF CONTENT -->
