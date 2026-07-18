@@ -38,7 +38,7 @@
       background: rgba(5, 13, 31, 0.9);
       color: #94b8d4;
       text-decoration: none;
-      font-size: 13px;
+      font-size: 19px; line-height: 1;
       font-weight: 600;
       transition: all 0.2s ease;
       backdrop-filter: blur(4px);
@@ -57,13 +57,13 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      font-size: 13px;
+      font-size: 19px; line-height: 1;
       font-weight: 500;
     }
-    .lang-bar .lang-current { color: #38bdf8; }
-    .lang-bar .lang-sep { color: #3a5878; }
-    .lang-bar a { color: #94b8d4; text-decoration: none; transition: color 0.2s; }
-    .lang-bar a:hover { color: #f0f8ff; }
+    .lang-bar .lang-current { opacity:1; cursor:default; }
+    .lang-bar .lang-sep { display:none; }
+    .lang-bar a { text-decoration:none; opacity:0.45; transition:opacity 0.2s; }
+    .lang-bar a:hover { opacity:1; }
 
     /* ── DOCUMENT WRAPPER ── */
     #pdfContent {
@@ -494,11 +494,11 @@
 <a href="index.html" class="back-home-link" aria-label="Go back to Alpine AI Coach homepage">&larr; Back to Alpine AI Coach</a>
 
 <div class="lang-bar">
-  <span class="lang-current">EN</span>
+  <span class="lang-current" title="English">&#127468;&#127463;</span>
   <span class="lang-sep">|</span>
-  <a href="fr/alpine-guide.html">FR</a>
+  <a href="fr/alpine-guide.html" title="Fran&ccedil;ais">&#127467;&#127479;</a>
   <span class="lang-sep">|</span>
-  <a href="es/alpine-guide.html">ES</a>
+  <a href="es/alpine-guide.html" title="Espa&ntilde;ol">&#127466;&#127480;</a>
 </div>
 
 <!-- PDF CONTENT -->
