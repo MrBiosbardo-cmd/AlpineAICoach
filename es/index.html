@@ -133,14 +133,14 @@
     .nav-mobile-menu a:hover, .nav-mobile-menu a:focus { color: var(--color-text); }
 
     /* === LANGUAGE SWITCHER === */
-    .nav-lang { display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 500; }
-    .lang-current { color: var(--color-primary); }
-    .lang-sep { color: var(--color-text-muted); }
-    .lang-link { color: var(--color-text-secondary); text-decoration: none; transition: color var(--transition); }
-    .lang-link:hover { color: var(--color-text); }
-    .mobile-lang { font-size: 16px; color: var(--color-text-secondary); padding: 12px 0; border-bottom: 1px solid var(--color-border); display: flex; align-items: center; gap: 6px; }
-    .mobile-lang .lang-current { color: var(--color-primary); }
-    .mobile-lang .lang-sep { color: var(--color-text-muted); }
+    .nav-lang { display:flex; align-items:center; gap:5px; font-size:19px; line-height:1; }
+    .lang-current { opacity:1; cursor:default; }
+    .lang-sep { display:none; }
+    .lang-link { text-decoration:none; opacity:0.45; transition:opacity var(--transition); }
+    .lang-link:hover { opacity:1; }
+    .mobile-lang { font-size: 22px; color: var(--color-text-secondary); padding: 12px 0; border-bottom: 1px solid var(--color-border); display: flex; align-items: center; gap: 6px; }
+    .mobile-lang .lang-current { opacity:1; cursor:default; }
+    .mobile-lang .lang-sep { display:none; }
 
     /* === BUTTONS === */
     .btn {
@@ -372,11 +372,11 @@
           <li><a href="https://tally.so/r/zxvqD8" target="_blank" rel="noopener noreferrer">Apoyo</a></li>
           <li>
             <span class="nav-lang">
-              <a href="../index.html" class="lang-link">EN</a>
+              <a href="../index.html" class="lang-link" title="English">&#127468;&#127463;</a>
               <span class="lang-sep"> | </span>
-              <a href="../fr/index.html" class="lang-link">FR</a>
+              <a href="../fr/index.html" class="lang-link" title="Fran&ccedil;ais">&#127467;&#127479;</a>
               <span class="lang-sep"> | </span>
-              <span class="lang-current">ES</span>
+              <span class="lang-current" title="Espa&ntilde;ol">&#127466;&#127480;</span>
             </span>
           </li>
         </ul>
@@ -405,11 +405,11 @@
     <a href="alpine-guide.html" class="mobile-nav-link">Guía de usuario</a>
     <a href="https://tally.so/r/zxvqD8" class="mobile-nav-link" target="_blank" rel="noopener noreferrer">Apoyo</a>
     <div class="mobile-lang">
-      <a href="../index.html" class="lang-link">EN</a>
+      <a href="../index.html" class="lang-link" title="English">&#127468;&#127463;</a>
       <span class="lang-sep"> | </span>
-      <a href="../fr/index.html" class="lang-link">FR</a>
+      <a href="../fr/index.html" class="lang-link" title="Fran&ccedil;ais">&#127467;&#127479;</a>
       <span class="lang-sep"> | </span>
-      <span class="lang-current">ES</span>
+      <span class="lang-current" title="Espa&ntilde;ol">&#127466;&#127480;</span>
     </div>
     <a href="https://t.me/AlpineCyclingCoachAIbot" target="_blank" rel="noopener noreferrer" style="margin-top: 16px; color: var(--color-primary);">
       Comenzar gratis en Telegram →
