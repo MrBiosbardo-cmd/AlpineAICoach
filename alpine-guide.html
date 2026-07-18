@@ -49,6 +49,22 @@
       background: rgba(15, 30, 53, 0.95);
     }
 
+    /* ── LANGUAGE SWITCHER ── */
+    .lang-bar {
+      align-self: flex-end;
+      margin-right: 12px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .lang-bar .lang-current { color: #38bdf8; }
+    .lang-bar .lang-sep { color: #3a5878; }
+    .lang-bar a { color: #94b8d4; text-decoration: none; transition: color 0.2s; }
+    .lang-bar a:hover { color: #f0f8ff; }
+
     /* ── DOCUMENT WRAPPER ── */
     #pdfContent {
       width: 794px;
@@ -464,6 +480,7 @@
       .doc-closing { page-break-inside: avoid; }
       .doc-footer { page-break-inside: avoid; }
       .back-home-link { display: none !important; }
+      .lang-bar { display: none !important; }
 
       h2 { page-break-after: avoid; }
       h3 { page-break-after: avoid; }
@@ -475,6 +492,14 @@
 <body>
 
 <a href="index.html" class="back-home-link" aria-label="Go back to Alpine AI Coach homepage">&larr; Back to Alpine AI Coach</a>
+
+<div class="lang-bar">
+  <span class="lang-current">EN</span>
+  <span class="lang-sep">|</span>
+  <a href="fr/alpine-guide.html">FR</a>
+  <span class="lang-sep">|</span>
+  <a href="es/alpine-guide.html">ES</a>
+</div>
 
 <!-- PDF CONTENT -->
 <div id="pdfContent">

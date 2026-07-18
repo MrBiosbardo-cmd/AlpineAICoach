@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alpine AI Coach — Guía de usuario</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+
+    /* ═══════════════════════════════════
+       SCREEN STYLES
+    ═══════════════════════════════════ */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: #0a1628;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px 80px;
+      min-height: 100vh;
+    }
+
+    .back-home-link {
+      position: sticky;
+      top: 16px;
+      align-self: flex-start;
+      margin-left: 12px;
+      margin-bottom: 14px;
+      z-index: 1000;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      border: 1px solid #1a2d4a;
+      background: rgba(5, 13, 31, 0.9);
+      color: #94b8d4;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      backdrop-filter: blur(4px);
+    }
+    .back-home-link:hover {
+      color: #f0f8ff;
+      border-color: #38bdf8;
+      background: rgba(15, 30, 53, 0.95);
+    }
+
+    /* ── LANGUAGE SWITCHER ── */
+    .lang-bar {
+      align-self: flex-end;
+      margin-right: 12px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .lang-bar .lang-current { color: #38bdf8; }
+    .lang-bar .lang-sep { color: #3a5878; }
+    .lang-bar a { color: #94b8d4; text-decoration: none; transition: color 0.2s; }
+    .lang-bar a:hover { color: #f0f8ff; }
+
+    /* ── DOCUMENT WRAPPER ── */
+    #pdfContent {
+      width: 794px;
+      background: #050d1f;
+      color: #f0f8ff;
+      font-family: 'Inter', Arial, sans-serif;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+    }
+
+    /* ── COVER ── */
+    .doc-cover {
+      background: linear-gradient(135deg, #050d1f 0%, #0a1628 60%, #0f1e35 100%);
+      border-bottom: 2px solid #38bdf8;
+      padding: 52px 56px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+    .doc-cover::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 340px; height: 340px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(56,189,248,0.11) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .doc-cover::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+    }
+
+    .cover-top {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 36px;
+    }
+    .cover-logo {
+      width: 72px;
+      height: 72px;
+      object-fit: contain;
+      border-radius: 10px;
+      flex-shrink: 0;
+    }
+    .cover-brand-name {
+      font-size: 22pt;
+      font-weight: 700;
+      color: #f0f8ff;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    .cover-brand-tag {
+      font-size: 9pt;
+      font-weight: 500;
+      color: #38bdf8;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+    .cover-divider {
+      width: 48px;
+      height: 2px;
+      background: #38bdf8;
+      margin-bottom: 20px;
+      border-radius: 2px;
+    }
+    .cover-title {
+      font-size: 30pt;
+      font-weight: 700;
+      color: #f0f8ff;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+    .cover-subtitle {
+      font-size: 12pt;
+      color: #94b8d4;
+      font-weight: 400;
+      line-height: 1.65;
+      max-width: 520px;
+    }
+    .cover-meta {
+      margin-top: 36px;
+      display: flex;
+      gap: 36px;
+    }
+    .cover-meta-label {
+      font-size: 8pt;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #3a5878;
+      display: block;
+      margin-bottom: 3px;
+    }
+    .cover-meta-value {
+      font-size: 10pt;
+      font-weight: 500;
+      color: #94b8d4;
+    }
+
+    /* ── DOCUMENT BODY ── */
+    .doc-body {
+      padding: 48px 56px 56px;
+      background: #050d1f;
+    }
+
+    /* ── SECTION LABELS ── */
+    .section-label {
+      display: inline-block;
+      font-size: 8pt;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #1e6a9a;
+      margin-bottom: 8px;
+    }
+
+    .section-block { margin-bottom: 40px; }
+
+    /* ── HEADINGS ── */
+    h2 {
+      font-size: 18pt;
+      font-weight: 700;
+      color: #f0f8ff;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #1a2d4a;
+    }
+    h3 {
+      font-size: 13pt;
+      font-weight: 600;
+      color: #38bdf8;
+      letter-spacing: -0.01em;
+      line-height: 1.3;
+      margin-bottom: 10px;
+      margin-top: 28px;
+    }
+    h4 {
+      font-size: 11pt;
+      font-weight: 600;
+      color: #7dd3fc;
+      margin-bottom: 8px;
+      margin-top: 20px;
+    }
+
+    /* ── PARAGRAPH ── */
+    p {
+      font-size: 10.5pt;
+      color: #94b8d4;
+      line-height: 1.75;
+      margin-bottom: 12px;
+    }
+    strong { color: #f0f8ff; font-weight: 600; }
+
+    /* ── DIVIDER ── */
+    .doc-hr {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, #1a2d4a, #243d5e, #1a2d4a);
+      margin: 32px 0;
+      border: none;
+      display: block;
+    }
+
+    /* ── BULLET LIST ── */
+    .doc-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 16px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .doc-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 10.5pt;
+      color: #94b8d4;
+      line-height: 1.65;
+      padding: 10px 14px;
+      background: #0a1628;
+      border: 1px solid #1a2d4a;
+      border-radius: 6px;
+    }
+    .doc-list li::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      min-width: 6px;
+      border-radius: 50%;
+      background: #38bdf8;
+      margin-top: 6px;
+    }
+    .doc-list li strong { color: #f0f8ff; }
+
+    /* ── NOTE BOX ── */
+    .note-box {
+      background: rgba(56,189,248,0.06);
+      border: 1px solid rgba(56,189,248,0.2);
+      border-left: 3px solid #38bdf8;
+      border-radius: 6px;
+      padding: 16px 20px;
+      margin: 18px 0;
+    }
+    .note-box p {
+      font-size: 10pt;
+      color: #94b8d4;
+      margin: 0;
+      line-height: 1.7;
+    }
+    .note-box p strong { color: #7dd3fc; }
+
+    /* ── INFO BOX ── */
+    .info-box {
+      background: rgba(14,165,233,0.06);
+      border: 1px solid rgba(14,165,233,0.18);
+      border-left: 3px solid #0ea5e9;
+      border-radius: 6px;
+      padding: 16px 20px;
+      margin: 14px 0;
+    }
+    .info-box p {
+      font-size: 10pt;
+      color: #94b8d4;
+      margin: 0;
+      line-height: 1.7;
+    }
+    .info-box p strong { color: #38bdf8; }
+
+    /* ── TABLES ── */
+    .doc-table-wrap {
+      margin: 18px 0;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #1a2d4a;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 10pt; }
+    thead tr { background: #0a1628; border-bottom: 2px solid #243d5e; }
+    thead th {
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 8.5pt;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #38bdf8;
+    }
+    tbody tr { border-bottom: 1px solid #1a2d4a; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:nth-child(odd)  { background: #050d1f; }
+    tbody tr:nth-child(even) { background: rgba(10,22,40,0.6); }
+    tbody td {
+      padding: 11px 16px;
+      color: #94b8d4;
+      vertical-align: top;
+      line-height: 1.6;
+    }
+    tbody td:first-child { color: #f0f8ff; font-weight: 500; }
+
+    /* RPE color coding */
+    .rpe-1 td:first-child, .rpe-2 td:first-child { color: #6ee7b7; }
+    .rpe-3 td:first-child { color: #a7f3d0; }
+    .rpe-4 td:first-child, .rpe-5 td:first-child { color: #fde68a; }
+    .rpe-6 td:first-child { color: #fbbf24; }
+    .rpe-7 td:first-child { color: #fb923c; }
+    .rpe-8 td:first-child { color: #f87171; }
+    .rpe-9 td:first-child { color: #ef4444; }
+    .rpe-10 td:first-child { color: #dc2626; }
+
+    /* ── STEP LIST ── */
+    .step-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 16px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .step-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 12px 16px;
+      background: #0a1628;
+      border: 1px solid #1a2d4a;
+      border-radius: 8px;
+      font-size: 10.5pt;
+      color: #94b8d4;
+      line-height: 1.65;
+    }
+    .step-num {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(56,189,248,0.1);
+      border: 1px solid rgba(56,189,248,0.25);
+      font-size: 10pt;
+      font-weight: 700;
+      color: #38bdf8;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    /* ── CODE STYLE ── */
+    .cmd-code {
+      font-family: 'Courier New', Courier, monospace;
+      background: rgba(56,189,248,0.08);
+      color: #38bdf8;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 9.5pt;
+      border: 1px solid rgba(56,189,248,0.15);
+    }
+
+    /* ── CLOSING BLOCK ── */
+    .doc-closing {
+      background: linear-gradient(135deg, #0a1628 0%, #0f1e35 100%);
+      border: 1px solid #1a2d4a;
+      border-top: 2px solid #38bdf8;
+      border-radius: 10px;
+      padding: 36px 40px;
+      margin-top: 40px;
+      text-align: center;
+    }
+    .doc-closing h2 {
+      border: none;
+      padding: 0;
+      font-size: 20pt;
+      color: #38bdf8;
+      margin-bottom: 14px;
+    }
+    .doc-closing p {
+      font-size: 11pt;
+      color: #94b8d4;
+      max-width: 480px;
+      margin: 0 auto 10px;
+    }
+
+    /* ── FOOTER ── */
+    .doc-footer {
+      background: #030810;
+      border-top: 1px solid #1a2d4a;
+      padding: 20px 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .doc-footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .doc-footer-logo img {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+    .doc-footer-name { font-size: 9pt; font-weight: 600; color: #3a5878; }
+    .doc-footer-text { font-size: 8.5pt; color: #3a5878; }
+
+
+    /* ═══════════════════════════════════
+       PRINT STYLES
+    ═══════════════════════════════════ */
+    @media print {
+
+      @page {
+        size: A4;
+        margin: 0;
+      }
+
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+      }
+
+      body {
+        background: #050d1f !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: block !important;
+      }
+
+      #pdfContent {
+        width: 100% !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+      }
+
+      .section-block { page-break-inside: avoid; }
+      .doc-table-wrap { page-break-inside: avoid; }
+      .note-box { page-break-inside: avoid; }
+      .info-box { page-break-inside: avoid; }
+      .doc-closing { page-break-inside: avoid; }
+      .doc-footer { page-break-inside: avoid; }
+      .back-home-link { display: none !important; }
+      .lang-bar { display: none !important; }
+
+      h2 { page-break-after: avoid; }
+      h3 { page-break-after: avoid; }
+      h4 { page-break-after: avoid; }
+    }
+
+  </style>
+</head>
+<body>
+
+<a href="index.html" class="back-home-link" aria-label="Volver a la página de inicio de Alpine AI Coach">&larr; Volver a Alpine AI Coach</a>
+
+<div class="lang-bar">
+  <a href="../alpine-guide.html">EN</a>
+  <span class="lang-sep">|</span>
+  <a href="../fr/alpine-guide.html">FR</a>
+  <span class="lang-sep">|</span>
+  <span class="lang-current">ES</span>
+</div>
+
+<!-- PDF CONTENT -->
+<div id="pdfContent">
+
+  <!-- ══ COVER ══ -->
+  <div class="doc-cover">
+    <div class="cover-top">
+      <img src="../logo.png" alt="Alpine AI Coach" class="cover-logo">
+      <div>
+        <div class="cover-brand-name">Alpine AI Coach</div>
+        <div class="cover-brand-tag">Entrenamiento Ciclista Impulsado por IA</div>
+      </div>
+    </div>
+    <div class="cover-divider"></div>
+    <div class="cover-title">Guía de usuario</div>
+    <div class="cover-subtitle">Todo lo que necesitas para empezar, entender qué puede hacer Alpine AI Coach por ti, y sacar el máximo provecho de tu entrenamiento desde el primer día.</div>
+    <div class="cover-meta">
+      <div>
+        <span class="cover-meta-label">Creado por</span>
+        <span class="cover-meta-value">Carlos — Exciclista Profesional</span>
+      </div>
+      <div>
+        <span class="cover-meta-label">Plataforma</span>
+        <span class="cover-meta-value">Telegram</span>
+      </div>
+      <div>
+        <span class="cover-meta-label">Acceso</span>
+        <span class="cover-meta-value">Gratis — Siempre</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ BODY ══ -->
+  <div class="doc-body">
+
+    <!-- ABOUT -->
+    <div class="section-block">
+      <span class="section-label">Sobre este documento</span>
+      <h2>Sobre este documento</h2>
+      <p>Esta guía está diseñada para ayudarte a empezar con Alpine AI Coach, entender qué puede hacer por ti y sacar el máximo provecho de tu experiencia desde el primer día.</p>
+    </div>
+
+    <hr class="doc-hr">
+
+    <!-- WHAT IS -->
+    <div class="section-block">
+      <span class="section-label">Descripción general</span>
+      <h2>¿Qué es Alpine AI Coach?</h2>
+      <p>Alpine AI Coach es un asistente de entrenamiento ciclista gratuito, impulsado por IA, que funciona directamente dentro de Telegram. Fue creado por Carlos, un exciclista profesional español, con un objetivo claro: dar a cada ciclista serio acceso al tipo de entrenamiento estructurado y apoyo en ciencias del deporte que antes solo estaba disponible para atletas financiados y equipos profesionales.</p>
+      <p>Ya sea que estés entrenando para tu primer gran fondo, apuntando a un podio, o simplemente intentando rodar más inteligente y recuperarte mejor, Alpine AI Coach está diseñado para apoyar tu camino con orientación personalizada y basada en evidencia.</p>
+      <div class="note-box">
+        <p>La brecha entre los ciclistas aficionados y profesionales rara vez se trata de talento. Casi siempre se trata de acceso — a entrenamiento estructurado, conocimiento de ciencias del deporte y retroalimentación constante. Alpine AI Coach existe para cerrar esa brecha, haciendo que el apoyo de entrenamiento de nivel profesional esté disponible para cualquier ciclista motivado, en cualquier lugar del mundo, <strong>completamente gratis.</strong></p>
+      </div>
+    </div>
+
+    <hr class="doc-hr">
+
+    <!-- FEATURES -->
+    <div class="section-block">
+      <span class="section-label">Características</span>
+      <h2>¿Qué puede hacer Alpine AI Coach por ti?</h2>
+      <p>Alpine AI Coach ofrece un conjunto completo de herramientas de entrenamiento, todas disponibles a través de simples conversaciones en Telegram:</p>
+      <ul class="doc-list">
+        <li><strong>Orientación de entrenamiento personalizada</strong> basada en tu condición física actual, objetivos e historial de rutas</li>
+        <li><strong>Registro y análisis de rutas</strong> para que tus sesiones sean rastreadas y comprendidas a lo largo del tiempo</li>
+        <li><strong>Retroalimentación de rendimiento semanal</strong> que te ayuda a ver el progreso y ajustar tu entrenamiento</li>
+        <li><strong>Consejos de ciencias del deporte</strong> sobre nutrición, recuperación, ritmo y preparación para carreras</li>
+        <li><strong>Entrenamiento basado en RPE</strong> que funciona sin medidores de potencia, monitores de frecuencia cardíaca ni equipo costoso</li>
+        <li><strong>Disponibilidad 24/7</strong> para que puedas registrar una ruta o revisar tu semana en cualquier momento</li>
+      </ul>
+    </div>
+
+    <hr class="doc-hr">
+
+    <!-- HOW IT WORKS -->
+    <div class="section-block">
+      <span class="section-label">Cómo funciona</span>
+      <h2>¿Cómo funciona Alpine AI Coach?</h2>
+      <p>Alpine AI Coach funciona completamente dentro de Telegram. No hay nada que descargar, sin suscripción que gestionar y sin aplicación que instalar por separado. Simplemente abre tu aplicación Telegram y comienza una conversación con el bot.</p>
+      <p>El bot se comunica contigo en un lenguaje simple y claro. Describes tus rutas, compartes cómo te sentiste, y Alpine AI Coach responde con retroalimentación de entrenamiento adaptada específicamente a ti.</p>
+    </div>
+
+    <hr class="doc-hr">
+
+    <!-- RIDE LOGGING -->
+    <div class="section-block">
+      <span class="section-label">Registro de rutas</span>
+      <h2>Registrar tus rutas</h2>
+
+      <h3>Lo básico: todo lo que necesitas para empezar</h3>
+      <p>Cuando registras una ruta con Alpine AI Coach, la información básica que necesitas es simple:</p>
+      <ul class="doc-list">
+        <li>Distancia recorrida</li>
+        <li>Duración de la sesión</li>
+        <li>RPE — qué tan dura se sintió la ruta en una escala del 1 al 10</li>
+      </ul>
+      <p>Eso es todo lo que necesitas. <strong>No se requiere ninguna tecnología.</strong></p>
+
+      <h3>Si ruedas con un ciclocomputador básico</h3>
+      <p>Si tienes un ciclocomputador básico, puedes enriquecer tu registro de ruta con datos adicionales que ayudan a Alpine AI Coach a darte retroalimentación aún más precisa y personalizada. Las métricas útiles para incluir son:</p>
+      <ul class="doc-list">
+        <li><strong>Altitud acumulada</strong> — el desnivel total ganado durante la ruta, lo que da contexto importante sobre el esfuerzo y la carga de trabajo. La misma distancia a RPE 7 en carretera plana y en montaña son dos sesiones de entrenamiento muy diferentes.</li>
+        <li><strong>Cadencia media</strong> — tus revoluciones de pedaleo promedio por minuto, que ayuda al entrenador a entender tu estilo de montar, eficiencia y si tu entrenamiento está desarrollando los patrones neuromusculares que coinciden con tus objetivos.</li>
+        <li><strong>Frecuencia cardíaca</strong> — si tu ciclocomputador incluye un monitor de frecuencia cardíaca, puedes ingresar manualmente tu FC Media y/o FC Máxima para la sesión. Esto agrega un contexto fisiológico valioso a tus datos de ruta y permite que Alpine AI Coach te dé retroalimentación más profunda y precisa.</li>
+      </ul>
+      <p>No necesitas un dispositivo GPS ni un smartphone para usar Alpine AI Coach de manera efectiva. Pero si tu ciclocomputador registra estos números, compartirlos hace que tus datos de entrenamiento sean más ricos y tu retroalimentación más precisa.</p>
+      <div class="note-box">
+        <p><strong>Una nota sobre el monitoreo de frecuencia cardíaca:</strong> Un monitor de frecuencia cardíaca no es obligatorio. El RPE es la base de cómo Alpine AI Coach analiza tu entrenamiento, y funciona completamente por sí solo. Los datos de frecuencia cardíaca, cuando están disponibles, agregan una capa adicional de precisión al análisis — pero siempre son complementarios, nunca un requisito.</p>
+      </div>
+
+      <h3>Si ruedas con un smartphone o dispositivo GPS</h3>
+      <p>Si ruedas con una aplicación de smartphone como Strava, Komoot o similar, o con un dispositivo Garmin o cualquier ciclocomputador GPS equivalente, puedes subir tu archivo de ruta directamente a Alpine AI Coach.</p>
+      <p>Los formatos de archivo admitidos son:</p>
+      <ul class="doc-list">
+        <li><strong>.fit</strong> — el formato de archivo estándar utilizado por Garmin y la mayoría de los dispositivos GPS para ciclismo</li>
+        <li><strong>.gpx</strong> — un formato ampliamente compatible utilizado por smartphones y muchas aplicaciones de ciclismo</li>
+      </ul>
+      <p>Simplemente exporta el archivo desde tu dispositivo o aplicación después de tu ruta y súbelo directamente en tu conversación de Telegram con Alpine AI Coach.</p>
+
+      <h4>Nota sobre datos del dispositivo y carga de archivos</h4>
+      <p>Si tu dispositivo registra datos de GPS y movimiento, las cargas de archivos importarán las métricas de ruta, incluyendo distancia, duración, altitud, velocidad, cadencia y ruta GPS.</p>
+      <div class="info-box">
+        <p><strong>Datos de frecuencia cardíaca:</strong> Cuando la frecuencia cardíaca está presente en tu archivo, será utilizada completamente por el entrenador, incluyendo FC media, FC máxima y análisis de deriva de FC. También puedes registrar la FC manualmente después de cualquier sesión.</p>
+      </div>
+      <div class="info-box">
+        <p><strong>Datos del medidor de potencia:</strong> Las métricas avanzadas derivadas de la potencia, como la potencia normalizada, la puntuación de estrés de entrenamiento y el factor de intensidad, estarán disponibles en una futura actualización. Alpine AI Coach continuará expandiendo sus capacidades de procesamiento de datos con el tiempo.</p>
+      </div>
+    </div>
+
+    <hr class="doc-hr">
+
+    <!-- RPE -->
+    <div class="section-block">
+      <span class="section-label">Método principal</span>
+      <h2>Entendiendo el RPE: Tu herramienta más importante</h2>
+      <p>Alpine AI Coach usa el RPE, que significa <strong>Tasa de Esfuerzo Percibido</strong>, como el método principal para registrar la intensidad de la ruta. El RPE es una escala del 1 al 10 que mide qué tan dura se siente tu ruta. Los entrenadores profesionales lo han usado durante décadas, y funciona sin ninguna tecnología.</p>
+      <div class="doc-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:80px;">RPE</th>
+              <th>Descripción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="rpe-1"><td>1</td><td>Muy fácil. Rodaje de recuperación, casi ningún esfuerzo.</td></tr>
+            <tr class="rpe-2"><td>2</td><td>Muy ligero. Ritmo de calentamiento fácil.</td></tr>
+            <tr class="rpe-3"><td>3</td><td>Fácil. Rodaje largo de resistencia, completamente cómodo.</td></tr>
+            <tr class="rpe-4"><td>4</td><td>Moderadamente fácil. Ritmo constante, respiración ligeramente elevada.</td></tr>
+            <tr class="rpe-5"><td>5</td><td>Moderado. Esfuerzo tempo, puede hablar en frases cortas.</td></tr>
+            <tr class="rpe-6"><td>6</td><td>Moderadamente duro. Esfuerzo sostenido, la conversación es difícil.</td></tr>
+            <tr class="rpe-7"><td>7</td><td>Duro. Ritmo de umbral, respiración pesada y controlada.</td></tr>
+            <tr class="rpe-8"><td>8</td><td>Muy duro. Ritmo de carrera o esfuerzo de intervalo duro.</td></tr>
+            <tr class="rpe-9"><td>9</td><td>Extremadamente duro. Cerca de tu límite absoluto.</td></tr>
+            <tr class="rpe-10"><td>10</td><td>Máximo. Solo sprint final o esfuerzo a tope.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note-box">
+        <p><strong>Cómo usarlo:</strong> Después de cada ruta, pregúntate qué tan dura se sintió la sesión en general — no solo el momento más duro. Ese número es tu RPE. Sé honesto contigo mismo. No hay respuesta correcta o incorrecta, y la precisión con el tiempo es lo que importa.</p>
+      </div>
+      <p>Alpine AI Coach usa tus datos de RPE para entender tu carga de entrenamiento, monitorear la fatiga y darte mejor orientación a medida que evoluciona tu condición física. Los datos de frecuencia cardíaca, cuando están disponibles, agregan profundidad a ese cuadro — pero <strong>el RPE es siempre la base.</strong></p>
+    </div>
+
+    <hr class="doc-hr">
+
+    <!-- QUICK SUMMARY -->
+    <div class="section-block">
+      <span class="section-label">Referencia rápida</span>
+      <h2>Un resumen rápido: ¿Qué puedo registrar?</h2>
+      <div class="doc-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Lo que tienes</th>
+              <th>Lo que puedes registrar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Solo memoria</td>
+              <td>Distancia, duración, RPE</td>
+            </tr>
+            <tr>
+              <td>Ciclocomputador básico</td>
+              <td>Distancia, duración, RPE, altitud, cadencia</td>
+            </tr>
+            <tr>
+              <td>Ciclocomputador básico con monitor de FC</td>
+              <td>Todo lo anterior, más FC Media y/o FC Máxima ingresadas manualmente</td>
+            </tr>
+            <tr>
+              <td>Smartphone o dispositivo GPS</td>
+              <td>Sube directamente un archivo .fit o .gpx</td>
+            </tr>
+            <tr>
+              <td>Dispositivo GPS con datos de FC en el archivo</td>
+              <td>Carga completa del archivo — los datos de FC serán leídos y usados automáticamente</td>
+            </tr>
+            <tr>
+              <td>Medidor de potencia</td>
+              <td>Métricas básicas mediante carga de archivo. Métricas avanzadas de potencia próximamente.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <hr class="doc-hr">
+
+    <!-- GETTING STARTED -->
+    <div class="section-block">
+      <span class="section-label">Configuración</span>
+      <h2>Primeros pasos</h2>
+      <p>Sigue estos pasos para comenzar tu primera sesión con Alpine AI Coach:</p>
+      <ol class="step-list">
+        <li><span class="step-num">1</span>Abre Telegram y busca el bot Alpine AI Coach</li>
+        <li><span class="step-num">2</span>Inicia la conversación escribiendo <span class="cmd-code">/start</span></li>
+        <li><span class="step-num">3</span>Completa el breve proceso de incorporación para que el bot entienda tu nivel de condición física y objetivos actuales</li>
+        <li><span class="step-num">4</span>Registra tu primera ruta después de tu próxima sesión de entrenamiento</li>
+        <li><span class="step-num">5</span>Escribe <span class="cmd-code">/help</span> en cualquier momento para ver la lista completa de comandos y características disponibles</li>
+      </ol>
+    </div>
+
+    <hr class="doc-hr">
+
+    <!-- COMMANDS -->
+    <div class="section-block">
+      <span class="section-label">Comandos</span>
+      <h2>Comandos principales</h2>
+      <div class="doc-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:160px;">Comando</th>
+              <th>Qué hace</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="cmd-code">/start</span></td>
+              <td>Comenzar tu sesión o reiniciar la incorporación</td>
+            </tr>
+            <tr>
+              <td><span class="cmd-code">/log</span></td>
+              <td>Registrar una ruta completada con distancia, duración y RPE</td>
+            </tr>
+            <tr>
+              <td><span class="cmd-code">/feedback</span></td>
+              <td>Solicitar una revisión de tu entrenamiento reciente</td>
+            </tr>
+            <tr>
+              <td><span class="cmd-code">/tip</span></td>
+              <td>Obtener un consejo de ciencias del deporte del día</td>
+            </tr>
+            <tr>
+              <td><span class="cmd-code">/help</span></td>
+              <td>Ver todos los comandos disponibles y sus explicaciones</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <hr class="doc-hr">
+
+    <!-- GOOD TO KNOW -->
+    <div class="section-block">
+      <span class="section-label">Bueno saber</span>
+      <h2>Algunas cosas que vale la pena saber</h2>
+      <ul class="doc-list">
+        <li>Toda la orientación de entrenamiento se personaliza con el tiempo a medida que el bot aprende más sobre tus patrones de ciclismo</li>
+        <li>Alpine AI Coach es más efectivo cuando registras rutas de manera consistente y te involucras honestamente con la retroalimentación</li>
+        <li>Los datos de frecuencia cardíaca son opcionales pero bienvenidos — cuanto más contexto compartas, más preciso será el análisis</li>
+        <li>Se agregan nuevas características y capacidades de datos expandidas de forma continua</li>
+        <li>Tus datos se usan únicamente para mejorar tu experiencia de entrenamiento personalizada</li>
+      </ul>
+    </div>
+
+    <!-- CLOSING -->
+    <div class="doc-closing">
+      <h2>Bienvenido a Alpine AI Coach. Ahora sal a rodar.</h2>
+      <p>Ahora tienes todo lo que necesitas para empezar. Registra tus rutas, sé honesto con tu esfuerzo y deja que Alpine AI Coach haga el resto.</p>
+      <p>Si algo no funciona como se esperaba, o si tienes sugerencias, por favor compártelas. Cada comentario es leído y tomado en serio.</p>
+    </div>
+
+  </div>
+
+  <!-- ══ FOOTER ══ -->
+  <div class="doc-footer">
+    <div class="doc-footer-logo">
+      <img src="../logo.png" alt="Alpine AI Coach">
+      <span class="doc-footer-name">Alpine AI Coach</span>
+    </div>
+    <span class="doc-footer-text">Gratis para siempre. Creado por Carlos. Impulsado por ciencia deportiva real.</span>
+    <span class="doc-footer-text">© 2026 Alpine AI Coach</span>
+    <a href="index.html" class="doc-footer-text" style="text-decoration: underline;">Volver a la página de inicio</a>
+  </div>
+
+</div>
+
+</body>
+</html>
