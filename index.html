@@ -321,6 +321,16 @@
     .footer-bottom p { font-size: 12px; color: var(--color-text-muted); }
     .footer-mission-line { font-size: 12px; color: var(--color-text-muted); font-style: italic; }
 
+    /* === LANGUAGE SWITCHER === */
+    .nav-lang { display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 500; }
+    .lang-current { color: var(--color-primary); }
+    .lang-sep { color: var(--color-text-muted); }
+    .lang-link { color: var(--color-text-secondary); text-decoration: none; transition: color var(--transition); }
+    .lang-link:hover { color: var(--color-text); }
+    .mobile-lang { font-size: 16px; color: var(--color-text-secondary); padding: 12px 0; border-bottom: 1px solid var(--color-border); display: flex; align-items: center; gap: 6px; }
+    .mobile-lang .lang-current { color: var(--color-primary); }
+    .mobile-lang .lang-sep { color: var(--color-text-muted); }
+
     /* === FOCUS STYLES === */
     :focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; border-radius: var(--radius-sm); }
 
@@ -395,6 +405,15 @@
           <li><a href="#coach">The Coach</a></li>
           <li><a href="alpine-guide.html">User Guide</a></li>
           <li><a href="https://tally.so/r/zxvqD8" target="_blank" rel="noopener noreferrer">Support</a></li>
+          <li>
+            <span class="nav-lang">
+              <span class="lang-current">EN</span>
+              <span class="lang-sep"> | </span>
+              <a href="fr/index.html" class="lang-link">FR</a>
+              <span class="lang-sep"> | </span>
+              <a href="es/index.html" class="lang-link">ES</a>
+            </span>
+          </li>
         </ul>
 
         <a href="https://t.me/AlpineCyclingCoachAIbot" class="btn btn-primary nav-cta" target="_blank" rel="noopener noreferrer">
@@ -420,6 +439,13 @@
     <a href="#howto" class="mobile-nav-link">How It Works</a>
     <a href="alpine-guide.html" class="mobile-nav-link">User Guide</a>
     <a href="https://tally.so/r/zxvqD8" class="mobile-nav-link" target="_blank" rel="noopener noreferrer">Support</a>
+    <div class="mobile-lang">
+      <span class="lang-current">EN</span>
+      <span class="lang-sep"> | </span>
+      <a href="fr/index.html" class="lang-link">FR</a>
+      <span class="lang-sep"> | </span>
+      <a href="es/index.html" class="lang-link">ES</a>
+    </div>
     <a href="https://t.me/AlpineCyclingCoachAIbot" target="_blank" rel="noopener noreferrer" style="margin-top: 16px; color: var(--color-primary);">
       Start Free on Telegram →
     </a>
