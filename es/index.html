@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Alpine AI Coach — Entrenamiento ciclista gratuito impulsado por IA basado en ciencia deportiva real. Para cada ciclista, sin importar dónde viva ni qué pueda pagar.">
+  <meta name="description" content="Alpine AI Coach — Entrenamiento ciclista gratuito impulsado por IA en Telegram y en la App Web Rider, basado en ciencia deportiva real. Para cada ciclista, sin importar dónde viva ni qué pueda pagar.">
   <meta name="theme-color" content="#050d1f">
-  <title>Alpine AI Coach — Entrenamiento para cada ciclista</title>
+  <title>Alpine AI Coach — Entrenamiento para cada ciclista | Telegram + App Web Rider</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -369,6 +369,7 @@
           <li><a href="#solution">La Solución</a></li>
           <li><a href="#coach">El Entrenador</a></li>
           <li><a href="alpine-guide.html">Guía de usuario</a></li>
+          <li><a data-rider-webapp-link target="_blank" rel="noopener noreferrer">App Web Rider</a></li>
           <li><a href="https://tally.so/r/zxvqD8" target="_blank" rel="noopener noreferrer">Apoyo</a></li>
           <li>
             <span class="nav-lang">
@@ -403,6 +404,7 @@
     <a href="#audience" class="mobile-nav-link">Para quién es</a>
     <a href="#howto" class="mobile-nav-link">Cómo funciona</a>
     <a href="alpine-guide.html" class="mobile-nav-link">Guía de usuario</a>
+    <a data-rider-webapp-link class="mobile-nav-link" target="_blank" rel="noopener noreferrer">App Web Rider</a>
     <a href="https://tally.so/r/zxvqD8" class="mobile-nav-link" target="_blank" rel="noopener noreferrer">Apoyo</a>
     <div class="mobile-lang">
       <a href="../index.html" class="lang-link" title="English"><img src="https://flagcdn.com/20x15/gb.png" width="20" height="15" alt="English"></a>
@@ -448,7 +450,10 @@
           </svg>
           Comenzar gratis en Telegram
         </a>
-        <a href="#problem" class="btn btn-secondary">Más información</a>
+        <a data-rider-webapp-link class="btn btn-secondary" target="_blank" rel="noopener noreferrer" aria-label="Abrir la App Web Rider de Alpine AI Coach">
+          Abrir App Web Rider
+        </a>
+        <a href="#problem" class="btn btn-ghost">Más información</a>
       </div>
       <p class="hero-footnote animate-in animate-delay-4">
         Sin descarga de app. Sin suscripción. Sin barreras.
@@ -682,6 +687,62 @@
 </section>
 
 <!-- ═══════════════════════════════════════════
+     APP WEB RIDER
+════════════════════════════════════════════ -->
+<section class="section" id="webapp" aria-labelledby="webapp-heading">
+  <div class="container">
+    <div class="solution-inner">
+      <div class="solution-intro">
+        <span class="section-label" aria-hidden="true">App Web</span>
+        <h2 id="webapp-heading">Usa Alpine AI Coach en la App Web Rider</h2>
+        <p style="margin-top: 16px;">
+          Los ciclistas ahora pueden elegir Telegram o la App Web Rider, con ambas experiencias disponibles en paralelo.
+        </p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: var(--spacing-md);">
+        <div class="solution-features" role="list">
+          <div class="solution-feature" role="listitem">
+            <div class="solution-feature-text">
+              <h4>Onboarding guiado</h4>
+              <p>Configura rápido tu perfil de ciclista y empieza con la misma metodología de Alpine AI Coach.</p>
+            </div>
+          </div>
+          <div class="solution-feature" role="listitem">
+            <div class="solution-feature-text">
+              <h4>Registrar sesiones y subir archivos</h4>
+              <p>Registra entrenamientos y sube archivos .fit o .gpx para análisis y feedback de entrenamiento.</p>
+            </div>
+          </div>
+          <div class="solution-feature" role="listitem">
+            <div class="solution-feature-text">
+              <h4>Ver el plan de la semana</h4>
+              <p>Consulta la estructura día por día y mantén constancia con tus sesiones objetivo.</p>
+            </div>
+          </div>
+          <div class="solution-feature" role="listitem">
+            <div class="solution-feature-text">
+              <h4>Seguir métricas e historial</h4>
+              <p>Revisa tendencias de progreso, actividad reciente e historial de sesiones en un solo lugar.</p>
+            </div>
+          </div>
+        </div>
+        <div class="howto-cta-block">
+          <p>¿Prefieres una experiencia web? Abre la App Web Rider. ¿Prefieres chat? Telegram sigue totalmente disponible.</p>
+          <div style="display:flex; gap: 10px; flex-wrap: wrap;">
+            <a data-rider-webapp-link class="btn btn-primary" target="_blank" rel="noopener noreferrer" aria-label="Abrir la App Web Rider de Alpine AI Coach">
+              Abrir App Web Rider
+            </a>
+            <a href="https://t.me/AlpineCyclingCoachAIbot" class="btn btn-secondary" target="_blank" rel="noopener noreferrer" aria-label="Seguir usando Alpine AI Coach en Telegram">
+              Seguir en Telegram
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
      HOW IT WORKS
 ════════════════════════════════════════════ -->
 <section class="section howto" id="howto" aria-labelledby="howto-heading">
@@ -728,6 +789,9 @@
             <a href="https://t.me/AlpineCyclingCoachAIbot" class="btn btn-primary" target="_blank" rel="noopener noreferrer" aria-label="Comenzar a usar Alpine AI Coach en Telegram">
               Comenzar en Telegram
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+            <a data-rider-webapp-link class="btn btn-secondary" target="_blank" rel="noopener noreferrer" aria-label="Abrir la App Web Rider de Alpine AI Coach">
+              Abrir App Web Rider
             </a>
             <a href="alpine-guide.html" class="btn btn-secondary" aria-label="Abrir la guía de usuario Alpine AI Coach">
               Leer la guía de usuario
@@ -813,7 +877,9 @@
           <a href="#coach">El Entrenador</a>
           <a href="#audience">Para Quién Es</a>
           <a href="#howto">Cómo Funciona</a>
+          <a href="#webapp">App Web Rider</a>
           <a href="alpine-guide.html">Guía de usuario</a>
+          <a data-rider-webapp-link target="_blank" rel="noopener noreferrer">Abrir App Web Rider</a>
           <a href="https://tally.so/r/zxvqD8" target="_blank" rel="noopener noreferrer">Apoyo</a>
           <a href="https://t.me/AlpineCyclingCoachAIbot" target="_blank" rel="noopener noreferrer">Telegram</a>
           <a href="https://x.com/AlpineAICoach" target="_blank" rel="noopener noreferrer">X</a>
@@ -832,11 +898,19 @@
 <!-- ═══════════════════════════════════════════
      JAVASCRIPT
 ════════════════════════════════════════════ -->
+<script src="../site-config.js"></script>
 <script>
   const nav = document.getElementById('mainNav');
   const mobileToggle = document.getElementById('mobileToggle');
   const mobileMenu = document.getElementById('mobileMenu');
   const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+  const riderWebAppUrl = window.AlpineSiteConfig && typeof window.AlpineSiteConfig.getRiderWebAppUrl === 'function'
+    ? window.AlpineSiteConfig.getRiderWebAppUrl('es')
+    : '#';
+
+  document.querySelectorAll('[data-rider-webapp-link]').forEach(function(link) {
+    link.setAttribute('href', riderWebAppUrl);
+  });
 
   function handleNavScroll() {
     nav.classList.toggle('scrolled', window.scrollY > 40);
