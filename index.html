@@ -121,7 +121,7 @@
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--color-border);
     }
-    .nav-inner { display: flex; align-items: center; justify-content: space-between; }
+    .nav-inner { display: flex; align-items: center; gap: 12px; }
 
     /* ── LOGO (nav) ── */
     .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
@@ -148,6 +148,7 @@
       border-radius: var(--radius-sm);
       padding: 8px 10px;
       cursor: pointer;
+      margin-left: auto;
       display: flex;
       flex-direction: column;
       gap: 4px;
@@ -389,7 +390,7 @@
     /* === DESKTOP: 1024px+ === */
     @media (min-width: 1024px) {
       :root { --container-pad: 40px; }
-      .nav-links { display: flex; }
+      .nav-links { display: flex; margin-left: var(--spacing-sm); margin-right: auto; }
       .nav-cta { display: inline-flex; }
       .nav-mobile-toggle { display: none; }
       .hero { padding: 140px 0 var(--spacing-2xl); }
@@ -433,6 +434,8 @@
     <div class="container">
       <div class="nav-inner">
 
+        <button id="theme-toggle" type="button" title="Toggle theme" aria-label="Toggle theme">🌙</button>
+
         <a href="#" class="nav-logo" aria-label="Alpine AI Coach home">
           <img src="logo.png" alt="Alpine AI Coach Logo" class="nav-logo-img">
           <span class="nav-logo-text">Alpine AI Coach</span>
@@ -443,7 +446,6 @@
           <li><a href="#solution">The Solution</a></li>
           <li><a href="#coach">The Coach</a></li>
           <li><a href="alpine-guide.html">User Guide</a></li>
-          <li><a data-rider-webapp-link target="_blank" rel="noopener noreferrer">Rider Web App</a></li>
           <li><a href="https://tally.so/r/zxvqD8" target="_blank" rel="noopener noreferrer">Support</a></li>
           <li>
             <span class="nav-lang">
@@ -456,10 +458,18 @@
           </li>
         </ul>
 
-        <button id="theme-toggle" type="button" title="Toggle theme" aria-label="Toggle theme">🌙</button>
+        <a data-rider-webapp-link class="btn btn-secondary nav-cta" target="_blank" rel="noopener noreferrer" aria-label="Open Alpine AI Coach Rider Web App">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M3 4.5A2.5 2.5 0 0 1 5.5 2h13A2.5 2.5 0 0 1 21 4.5v15a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 19.5v-15zm2 2v11h14v-11H5zm0 13h14v.5a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-.5z"/>
+          </svg>
+          Web App
+        </a>
 
-        <a href="https://t.me/AlpineCyclingCoachAIbot" class="btn btn-primary nav-cta" target="_blank" rel="noopener noreferrer">
-          Start Free on Telegram
+        <a href="https://t.me/AlpineCyclingCoachAIbot" class="btn btn-primary nav-cta" target="_blank" rel="noopener noreferrer" aria-label="Open Alpine AI Coach on Telegram">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.01 9.471c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.088 14.57l2.948-.924c-.64-.2-.654-.64.136-.948l11.548-4.453c.53-.194.996.13.738.003z"/>
+          </svg>
+          Telegram
         </a>
 
         <button class="nav-mobile-toggle" id="mobileToggle" aria-expanded="false" aria-controls="mobileMenu" aria-label="Toggle navigation menu">
@@ -480,7 +490,6 @@
     <a href="#audience" class="mobile-nav-link">Who It's For</a>
     <a href="#howto" class="mobile-nav-link">How It Works</a>
     <a href="alpine-guide.html" class="mobile-nav-link">User Guide</a>
-    <a data-rider-webapp-link class="mobile-nav-link" target="_blank" rel="noopener noreferrer">Rider Web App</a>
     <a href="https://tally.so/r/zxvqD8" class="mobile-nav-link" target="_blank" rel="noopener noreferrer">Support</a>
     <div class="mobile-lang">
       <span class="lang-current" title="English"><img src="https://flagcdn.com/20x15/gb.png" width="20" height="15" alt="English"></span>
@@ -489,9 +498,8 @@
       <span class="lang-sep"> | </span>
       <a href="es/index.html" class="lang-link" title="Espa&ntilde;ol"><img src="https://flagcdn.com/20x15/es.png" width="20" height="15" alt="Espa&ntilde;ol"></a>
     </div>
-    <a href="https://t.me/AlpineCyclingCoachAIbot" target="_blank" rel="noopener noreferrer" style="margin-top: 16px; color: var(--color-primary);">
-      Start Free on Telegram →
-    </a>
+    <a href="https://t.me/AlpineCyclingCoachAIbot" class="mobile-nav-link" target="_blank" rel="noopener noreferrer">Telegram →</a>
+    <a data-rider-webapp-link class="mobile-nav-link" target="_blank" rel="noopener noreferrer">Web App →</a>
   </div>
 </header>
 
