@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alpine AI Coach — Guía de usuario</title>
+  <meta name="description" content="Guía de usuario de Alpine AI Coach para Telegram y App Web Rider: incorporación, registro de sesiones, carga de archivos, plan semanal y seguimiento del progreso.">
+  <title>Alpine AI Coach — Guía de usuario | Telegram + App Web Rider</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
 
@@ -64,6 +65,25 @@
     .lang-bar .lang-sep { display:none; }
     .lang-bar a { text-decoration:none; opacity:0.5; transition:opacity 0.2s; display:inline-flex; }
     .lang-bar a:hover { opacity:1; }
+    .webapp-cta-row { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 10px; }
+    .webapp-cta-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid #1e6a9a;
+      background: #38bdf8;
+      color: #050d1f;
+      text-decoration: none;
+      font-weight: 600;
+      line-height: 1;
+      transition: all 0.2s ease;
+    }
+    .webapp-cta-btn:hover { background: #f0f8ff; color: #050d1f; }
+    .webapp-cta-btn:focus-visible { outline: 2px solid #38bdf8; outline-offset: 2px; }
+    .webapp-cta-btn.secondary { background: transparent; color: #94b8d4; border-color: #243d5e; }
+    .webapp-cta-btn.secondary:hover { color: #f0f8ff; border-color: #38bdf8; }
 
     /* ── DOCUMENT WRAPPER ── */
     #pdfContent {
@@ -521,7 +541,7 @@
       </div>
       <div>
         <span class="cover-meta-label">Plataforma</span>
-        <span class="cover-meta-value">Telegram</span>
+        <span class="cover-meta-value">Telegram + App Web Rider</span>
       </div>
       <div>
         <span class="cover-meta-label">Acceso</span>
@@ -578,6 +598,26 @@
       <h2>¿Cómo funciona Alpine AI Coach?</h2>
       <p>Alpine AI Coach funciona completamente dentro de Telegram. No hay nada que descargar, sin suscripción que gestionar y sin aplicación que instalar por separado. Simplemente abre tu aplicación Telegram y comienza una conversación con el bot.</p>
       <p>El bot se comunica contigo en un lenguaje simple y claro. Describes tus rutas, compartes cómo te sentiste, y Alpine AI Coach responde con retroalimentación de entrenamiento adaptada específicamente a ti.</p>
+    </div>
+
+    <hr class="doc-hr">
+
+    <!-- APP WEB RIDER -->
+    <div class="section-block">
+      <span class="section-label">App Web</span>
+      <h2>App Web Rider (opcional, totalmente compatible)</h2>
+      <p>También puedes usar Alpine AI Coach desde la App Web Rider mientras mantienes Telegram en paralelo. Ambas opciones están soportadas.</p>
+      <ul class="doc-list">
+        <li><strong>Completar la incorporación</strong> en un flujo de navegador</li>
+        <li><strong>Registrar sesiones y subir archivos</strong> (.fit/.gpx)</li>
+        <li><strong>Ver tu plan semanal</strong> día por día</li>
+        <li><strong>Seguir estadísticas e historial</strong> en un solo panel</li>
+      </ul>
+      <p>Si prefieres el chat, Telegram sigue disponible exactamente como antes.</p>
+      <div class="webapp-cta-row">
+        <a data-rider-webapp-link class="webapp-cta-btn" target="_blank" rel="noopener noreferrer" aria-label="Abrir App Web Rider de Alpine AI Coach">Abrir App Web Rider</a>
+        <a href="https://t.me/AlpineCyclingCoachAIbot" class="webapp-cta-btn secondary" target="_blank" rel="noopener noreferrer" aria-label="Abrir bot de Telegram de Alpine AI Coach">Abrir bot de Telegram</a>
+      </div>
     </div>
 
     <hr class="doc-hr">
@@ -720,6 +760,10 @@
         <li><span class="step-num">4</span>Registra tu primera ruta después de tu próxima sesión de entrenamiento</li>
         <li><span class="step-num">5</span>Escribe <span class="cmd-code">/help</span> en cualquier momento para ver la lista completa de comandos y características disponibles</li>
       </ol>
+      <p>También puedes empezar con la App Web Rider si prefieres incorporación y registro desde navegador.</p>
+      <div class="webapp-cta-row">
+        <a data-rider-webapp-link class="webapp-cta-btn" target="_blank" rel="noopener noreferrer" aria-label="Abrir App Web Rider de Alpine AI Coach">Empezar en App Web Rider</a>
+      </div>
     </div>
 
     <hr class="doc-hr">
@@ -795,9 +839,22 @@
     <span class="doc-footer-text">Gratis para siempre. Creado por Carlos. Impulsado por ciencia deportiva real.</span>
     <span class="doc-footer-text">© 2026 Alpine AI Coach</span>
     <a href="index.html" class="doc-footer-text" style="text-decoration: underline;">Volver a la página de inicio</a>
+    <a data-rider-webapp-link class="doc-footer-text" style="text-decoration: underline;" target="_blank" rel="noopener noreferrer">Abrir App Web Rider</a>
   </div>
 
 </div>
+
+<script src="../site-config.js"></script>
+<script>
+  (function() {
+    var riderWebAppUrl = window.AlpineSiteConfig && typeof window.AlpineSiteConfig.getRiderWebAppUrl === 'function'
+      ? window.AlpineSiteConfig.getRiderWebAppUrl('es')
+      : '#';
+    document.querySelectorAll('[data-rider-webapp-link]').forEach(function(link) {
+      link.setAttribute('href', riderWebAppUrl);
+    });
+  })();
+</script>
 
 </body>
 </html>
