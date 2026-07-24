@@ -163,6 +163,7 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      gap: 8px;
       padding: 10px 14px;
       border-radius: 8px;
       border: 1px solid #1e6a9a;
@@ -177,6 +178,7 @@
     .webapp-cta-btn:focus-visible { outline: 2px solid #38bdf8; outline-offset: 2px; }
     .webapp-cta-btn.secondary { background: transparent; color: #94b8d4; border-color: #243d5e; }
     .webapp-cta-btn.secondary:hover { color: #f0f8ff; border-color: #38bdf8; }
+    .webapp-cta-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
 
     /* ── DOCUMENT WRAPPER ── */
     #pdfContent {
@@ -493,6 +495,7 @@
       flex-shrink: 0;
       line-height: 1;
     }
+    .step-text { flex: 1; min-width: 0; }
 
     /* ── CODE STYLE ── */
     .cmd-code {
@@ -712,8 +715,18 @@
       </ul>
       <p>If you prefer chat, Telegram remains available exactly as before.</p>
       <div class="webapp-cta-row">
-        <a data-rider-webapp-link class="webapp-cta-btn" target="_blank" rel="noopener noreferrer" aria-label="Open Alpine AI Coach Web App">Web App</a>
-        <a href="https://t.me/AlpineCyclingCoachAIbot" class="webapp-cta-btn secondary" target="_blank" rel="noopener noreferrer" aria-label="Open Alpine AI Coach on Telegram">Telegram</a>
+        <a data-rider-webapp-link class="webapp-cta-btn" target="_blank" rel="noopener noreferrer" aria-label="Open Alpine AI Coach Web App">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M3 4.5A2.5 2.5 0 0 1 5.5 2h13A2.5 2.5 0 0 1 21 4.5v15a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 19.5v-15zm2 2v11h14v-11H5zm0 13h14v.5a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-.5z"/>
+          </svg>
+          Web App
+        </a>
+        <a href="https://t.me/AlpineCyclingCoachAIbot" class="webapp-cta-btn secondary" target="_blank" rel="noopener noreferrer" aria-label="Open Alpine AI Coach on Telegram">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.01 9.471c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.088 14.57l2.948-.924c-.64-.2-.654-.64.136-.948l11.548-4.453c.53-.194.996.13.738.003z"/>
+          </svg>
+          Telegram
+        </a>
       </div>
     </div>
 
@@ -851,15 +864,26 @@
       <h2>Getting Started</h2>
       <p>Follow these steps to begin your first session with Alpine AI Coach:</p>
       <ol class="step-list">
-        <li><span class="step-num">1</span>Choose your starting channel: open Alpine AI Coach on Telegram or in the Web App</li>
-        <li><span class="step-num">2</span>If you start on Telegram, type <span class="cmd-code">/start</span>. If you start on Web App, complete onboarding in the browser.</li>
-        <li><span class="step-num">3</span>Complete the short onboarding so the bot understands your current fitness level and goals</li>
-        <li><span class="step-num">4</span>Log your first ride after your next training session</li>
-        <li><span class="step-num">5</span>In Telegram, type <span class="cmd-code">/help</span> at any time to see a full list of available commands and features</li>
+        <li><span class="step-num">1</span><span class="step-text">Choose your starting channel: open Alpine AI Coach on Telegram or in the Web App.</span></li>
+        <li><span class="step-num">2</span><span class="step-text">On Telegram, send <span class="cmd-code">/start</span>. On Web App, complete onboarding in the browser.</span></li>
+        <li><span class="step-num">3</span><span class="step-text">Complete the short onboarding so the bot understands your current fitness level and goals.</span></li>
+        <li><span class="step-num">4</span><span class="step-text">Log your first ride after your next training session.</span></li>
+        <li><span class="step-num">5</span><span class="step-text">On Telegram, send <span class="cmd-code">/help</span> anytime to see all available commands and features.</span></li>
       </ol>
       <p>Both channels are first-class: start in Telegram or Web App, then switch anytime.</p>
       <div class="webapp-cta-row">
-        <a data-rider-webapp-link class="webapp-cta-btn" target="_blank" rel="noopener noreferrer" aria-label="Open Alpine AI Coach Web App">Start in Web App</a>
+        <a data-rider-webapp-link class="webapp-cta-btn" target="_blank" rel="noopener noreferrer" aria-label="Open Alpine AI Coach Web App">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M3 4.5A2.5 2.5 0 0 1 5.5 2h13A2.5 2.5 0 0 1 21 4.5v15a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 19.5v-15zm2 2v11h14v-11H5zm0 13h14v.5a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-.5z"/>
+          </svg>
+          Web App
+        </a>
+        <a href="https://t.me/AlpineCyclingCoachAIbot" class="webapp-cta-btn secondary" target="_blank" rel="noopener noreferrer" aria-label="Open Alpine AI Coach on Telegram">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.01 9.471c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.088 14.57l2.948-.924c-.64-.2-.654-.64.136-.948l11.548-4.453c.53-.194.996.13.738.003z"/>
+          </svg>
+          Telegram
+        </a>
       </div>
     </div>
 
