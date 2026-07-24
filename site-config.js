@@ -1,5 +1,5 @@
 window.AlpineSiteConfig = {
-  riderWebAppBaseUrl: "https://alpinecyclingcoach-production.up.railway.app/rider",
+  riderWebAppBaseUrl: "https://strong-charm-production-bca3.up.railway.app/rider/login",
   getRiderWebAppUrl: function(locale) {
     var lang = locale || "en";
     return this.riderWebAppBaseUrl + "?lang=" + encodeURIComponent(lang);
