@@ -303,7 +303,7 @@ def draw_pdf(path, t):
     c.setFillColor(hexcol("#3a5878"))
     c.setFont("Segoe", 8)
     c.drawString(48, 28, t["footer"])
-    c.drawRightString(48 + table_w, 28, "https://alpineai-webapp-production.up.railway.app/")
+    c.drawRightString(48 + table_w, 28, "https://app.alpineaicoach.com/")
 
     c.save()
     print("Generated", path)

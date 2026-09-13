@@ -1,5 +1,5 @@
 window.AlpineSiteConfig = {
-  riderWebAppBaseUrl: "https://alpineai-webapp-production.up.railway.app/",
+  riderWebAppBaseUrl: "https://app.alpineaicoach.com/",
   getRiderWebAppUrl: function() {
     return this.riderWebAppBaseUrl;
   }
